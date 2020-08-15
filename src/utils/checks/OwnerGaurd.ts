@@ -1,4 +1,4 @@
-import OwnerGaurdInfo from "../interfaces/OwnerGaurdInfo";
+import OwnerGaurdInfo from "../../types/OwnerGaurdInfo";
 import { Snowflake, GuildMember } from "discord.js";
 
 export default class OwnerGaurd {

@@ -8,4 +8,4 @@ export default interface BaseCommandInfo {
     permissions: Array<PermissionResolvable>;
     enabled: boolean;
     ownerOnly?: boolean;
-}
+} 

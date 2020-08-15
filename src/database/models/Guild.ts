@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { GuildMember, SnowflakeUtil } from "discord.js";
+import { Schema, model } from "mongoose"; 
+import GuildDoc from "../../types/GuildDoc";
 
 const Guild = new Schema({
     id: { type: String, required: true },
@@ -7,4 +7,4 @@ const Guild = new Schema({
     logChannel: { type: String, required: false, default: null },
 });
 
-export default model("guild", Guild);
+export default model<GuildDoc>("guild", Guild);

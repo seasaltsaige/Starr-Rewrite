@@ -1,6 +1,7 @@
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import readdir from "readdir-plus";
-class CommandHandler {
+
+export default new class CommandHandler {
     load(path: string, client: StarrClient): void {
         readdir(path, (err, files) => {
             if (err) throw err;
@@ -13,5 +14,3 @@ class CommandHandler {
         });
     }
 }
-
-export default new CommandHandler() 

@@ -26,10 +26,10 @@ export default new class Log extends BaseCommand {
         const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(chan => chan.name.toLowerCase() === args.join("-").toLowerCase());
 
         if (!channel) return message.channel.send("Please provide a channel!");
-
+        
         try {
+            foundGuild.logChannel = channel.id;
             await foundGuild.save();
-            await Guild.findOneAndUpdate({ id: message.guild.id }, { logChannel: channel.id }, { new: true, useFindAndModify: false });
         } catch (err) {
             message.channel.send("Somethiong went wrong")
         }
