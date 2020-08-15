@@ -2,10 +2,18 @@ import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message as message } from "discord.js";
 import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGaurd from "../utils/checks/OwnerGaurd";
+import Pinged from "../utils/checks/Pinged";
 
 export default class Message {
     static async run(client: StarrClient, message: message) {
-        const prefix = client.defaultPrefix;
+        const prefix = await client.getGuildPrefix(message.guild) || client.defaultPrefix;
+        
+        const Ping = new Pinged({ message, type: "includes", client });
+        const pingMess = await Ping.check();
+
+        if (pingMess) {
+            return message.channel.send(pingMess);
+        }
 
         if (!message.guild) return;
         if (!message.content.startsWith(prefix)) return;

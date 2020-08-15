@@ -1,6 +1,6 @@
-import { Client, Snowflake } from "discord.js"
+import { Client, Snowflake, Guild } from "discord.js"
 import StarrClientInfo from "../../types/StarrClientInfo";
-
+import GuildDoc from "../../database/models/Guild";
 
 export default class StarrClient extends Client {
     defaultPrefix: string;
@@ -15,5 +15,10 @@ export default class StarrClient extends Client {
     };
     getToken (): string | undefined {
         return process.env.BOT_TOKEN;
+    }
+    async getGuildPrefix (guild: Guild) {
+        const foundGuild = await GuildDoc.findOne({ id: guild.id });
+        const guildPrefix = foundGuild.prefix;
+        return guildPrefix;
     }
 }
