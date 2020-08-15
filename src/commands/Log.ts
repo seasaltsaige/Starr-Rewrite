@@ -23,8 +23,9 @@ export default new class Log extends BaseCommand {
             id: message.guild.id,
         });
 
-        const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(chan => chan.name.toLowerCase() === args.join("-").toLowerCase());
+        
 
+        const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(chan => chan.name.toLowerCase() === args.join("-").toLowerCase());
         if (!channel) return message.channel.send("Please provide a channel!");
         
         try {
