@@ -5,7 +5,7 @@ import StarrClient from "../BaseClasses/StarrClient";
 export default class Pinged {
     message: Message;
     client: StarrClient;
-    type: "start" | "includes";
+    type: "start" | "includes" | "equals";
 
 
     constructor(PingedInfo: PingedInfo) {
@@ -22,7 +22,16 @@ export default class Pinged {
                 }
             break;
             case "start":
-
+                if (this.message.content.startsWith(`<@${this.client.user.id}>`) || this.message.content.startsWith(`<@!${this.client.user.id}>`)) {
+                    const customPrefix = await this.client.getGuildPrefix(this.message.guild);
+                    return `My prefix is ${customPrefix ? customPrefix : this.client.defaultPrefix}`;
+                }
+            break;
+            case "equals":
+                if (this.message.content === (`<@${this.client.user.id}>`) || this.message.content === (`<@!${this.client.user.id}>`)) {
+                    const customPrefix = await this.client.getGuildPrefix(this.message.guild);
+                    return `My prefix is ${customPrefix ? customPrefix : this.client.defaultPrefix}`;
+                }
             break;
         }
     }

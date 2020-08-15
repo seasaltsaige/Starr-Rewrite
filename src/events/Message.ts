@@ -8,12 +8,11 @@ export default class Message {
     static async run(client: StarrClient, message: message) {
         const prefix = await client.getGuildPrefix(message.guild) || client.defaultPrefix;
         
-        const Ping = new Pinged({ message, type: "includes", client });
+        const Ping = new Pinged({ message, type: "equals", client });
         const pingMess = await Ping.check();
 
-        if (pingMess) {
-            return message.channel.send(pingMess);
-        }
+        if (pingMess) return message.channel.send(pingMess);
+        
 
         if (!message.guild) return;
         if (!message.content.startsWith(prefix)) return;
