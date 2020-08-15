@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import Client from "./utils/BaseClasses/StarrClient";
+require("./database/database");
 
 const StarrClient = new Client({
     defaultPrefix: "!!",
