@@ -3,16 +3,23 @@ import { Message as message } from "discord.js";
 import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
+import BaseEvent from "../utils/BaseClasses/BaseEvent";
 
-export default class Message {
-    static async run(client: StarrClient, message: message) {
+export default class Message extends BaseEvent {
+    constructor() {
+        super({
+            name: "message",
+            description: "The event that lets to bot listen to messages."
+        })
+    }
+    public async run(client: StarrClient, message: message) {
         const prefix = await client.getGuildPrefix(message.guild) || client.defaultPrefix;
-        
+
         const Ping = new Pinged({ message, type: "equals", client });
         const pingMess = await Ping.check();
 
         if (pingMess) return message.channel.send(pingMess);
-        
+
 
         if (!message.guild) return;
         if (!message.content.startsWith(prefix)) return;
@@ -30,7 +37,7 @@ export default class Message {
             // Check if the command is disabled and if the member is an owner or not
             if (!commandFile.default.enabled && ownerCheck.check() !== undefined) {
                 return message.channel.send("This command is disabled for non bot owners!");
-            } 
+            }
 
             // Check if the command is set to bot owners only
             if (commandFile.default.ownerOnly) {

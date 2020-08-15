@@ -3,7 +3,7 @@ import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message, GuildMember } from "discord.js";
 import Guild from "../database/models/Guild";
 
-export default new class Log extends BaseCommand {
+export default class Log extends BaseCommand {
     constructor() {
         super({
             name: "log",
@@ -15,7 +15,7 @@ export default new class Log extends BaseCommand {
         });
     }
 
-    async run (client: StarrClient, message: Message, args: Array<string>) {
+    async run(client: StarrClient, message: Message, args: Array<string>) {
 
         let foundGuild = await Guild.findOne({ id: message.guild.id });
 
@@ -24,7 +24,7 @@ export default new class Log extends BaseCommand {
         });
 
         let set_delete = args[0];
-        
+
 
         switch (set_delete) {
             case "set":
@@ -35,11 +35,11 @@ export default new class Log extends BaseCommand {
                     foundGuild.logChannel = channel.id;
                     await foundGuild.save();
                 } catch (err) {
-                    message.channel.send("Somethiong went wrong")
+                    message.channel.send("Something went wrong")
                 }
 
                 message.channel.send(`Successfully set your log channel to ${channel}`);
-            break;
+                break;
             case "delete":
                 try {
                     foundGuild.logChannel = null;
@@ -49,10 +49,10 @@ export default new class Log extends BaseCommand {
                 }
 
                 message.channel.send("Successfully deleted your guilds log channel from the database.");
-            break;
-            default: 
+                break;
+            default:
                 message.channel.send("Please specify if you would like to set or delete your log channel.");
-            break;
+                break;
         }
     }
 }

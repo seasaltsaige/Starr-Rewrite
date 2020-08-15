@@ -2,14 +2,14 @@ import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 
-export default new class Ping extends BaseCommand {
+export default class Ping extends BaseCommand {
     constructor() {
         super({
-            name: "ping", 
-            usage: "?ping", 
+            name: "ping",
+            usage: "?ping",
             aliases: ["pong"],
             description: "Ping Pong",
-            permissions: ["SEND_MESSAGES", "MANAGE_GUILD", "ADMINISTRATOR"], 
+            permissions: ["SEND_MESSAGES", "MANAGE_GUILD", "ADMINISTRATOR"],
             enabled: true
         });
     }

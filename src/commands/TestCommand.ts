@@ -2,10 +2,10 @@ import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message, GuildMember } from "discord.js";
 
-export default new class TestCommand extends BaseCommand {
+export default class TestCommand extends BaseCommand {
     constructor() {
         super({
-            name: "testcommand", 
+            name: "testcommand",
             usage: "?testcommand",
             aliases: ["testing", "testy"],
             description: "Test Command",
@@ -15,7 +15,7 @@ export default new class TestCommand extends BaseCommand {
         });
     }
 
-    async run (client: StarrClient, message: Message, args: Array<string>): Promise<void> {
+    async run(client: StarrClient, message: Message, args: Array<string>): Promise<void> {
         message.channel.send("Testing worked!");
     }
 
