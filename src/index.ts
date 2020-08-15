@@ -1,11 +1,12 @@
 // Import dotenv for environment variables
 import dotenv from "dotenv";
 dotenv.config(); // Execute the config to bind env to the process
-
+import { Client as DiscordClient } from "discord.js";
+const DC = new DiscordClient(); 
 // Import my Extended client
 import Client from "./utils/BaseClasses/StarrClient";
-const StarrClient = new Client({ defaultPrefix: "?", commands: new Map(), owners: [ "408080307603111936" ], snipes: new Map() }, {  }); // Initialize the new client
-StarrClient.login(StarrClient.getToken()); // Login
+const StarrClient = new Client({ defaultPrefix: "?", commands: new Map(), owners: [ "408080307603111936" ], snipes: new Map() }); // Initialize the new client
+StarrClient.login("Njk3OTc1MTI0MTc5MDI1OTUw.Xo_F_Q.c6tTsLYD_KmpN0bCTF0A7ky1tLI"); // Login
 require("./database/database"); // Startup the database connection
 
 import CommandHandler from "./handlers/CommandHandler"; // Import the command handler
