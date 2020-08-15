@@ -4,7 +4,7 @@ import Client from "./utils/BaseClasses/StarrClient";
 require("./database/database");
 
 const StarrClient = new Client({
-    defaultPrefix: "!!",
+    defaultPrefix: "?",
     commands: new Map(), 
     owners: [
         "408080307603111936",
