@@ -1,4 +1,4 @@
-import PermissionGaurdInfo from "../interfaces/PermissionGaurdInfo";
+import PermissionGaurdInfo from "../../types/PermissionGaurdInfo";
 import { GuildMember, Message } from "discord.js";
 
 export default class PermissionGaurd {
