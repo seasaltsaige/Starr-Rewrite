@@ -7,7 +7,7 @@ export default new class EventHandler {
             for (const file of files) {
                 if (err) throw err;
 
-                const eventName = file.basename.toLowerCase();
+                const eventName = file.basename;
 
                 try {
                     const eventFile = require(file.path);

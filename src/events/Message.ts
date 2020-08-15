@@ -1,7 +1,7 @@
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message as message } from "discord.js";
 import PermissionGaurd from "../utils/checks/PermissionGaurd";
-import OwnerGaurd from "../utils/checks/OwnerGaurd";
+import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
 
 export default class Message {
@@ -25,7 +25,7 @@ export default class Message {
         if (commandFile) {
             // Define all our permission checks
             const permissionCheck = new PermissionGaurd({ member: message.member, command: commandFile });
-            const ownerCheck = new OwnerGaurd({ owners: client.owners, member: message.member });
+            const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
 
             // Check if the command is disabled and if the member is an owner or not
             if (!commandFile.default.enabled && ownerCheck.check() !== undefined) {
