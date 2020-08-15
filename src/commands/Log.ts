@@ -1,6 +1,6 @@
 import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 import StarrClient from "../utils/BaseClasses/StarrClient";
-import { Message } from "discord.js";
+import { Message, GuildMember } from "discord.js";
 import Guild from "../database/models/Guild";
 
 export default new class Log extends BaseCommand {
@@ -23,19 +23,36 @@ export default new class Log extends BaseCommand {
             id: message.guild.id,
         });
 
+        let set_delete = args[0];
         
 
-        const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(chan => chan.name.toLowerCase() === args.join("-").toLowerCase());
-        if (!channel) return message.channel.send("Please provide a channel!");
-        
-        try {
-            foundGuild.logChannel = channel.id;
-            await foundGuild.save();
-        } catch (err) {
-            message.channel.send("Somethiong went wrong")
+        switch (set_delete) {
+            case "set":
+                const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]) || message.guild.channels.cache.find(chan => chan.name.toLowerCase() === args.slice(1, args.length).join("-").toLowerCase());
+                if (!channel) return message.channel.send("Please provide a channel!");
+
+                try {
+                    foundGuild.logChannel = channel.id;
+                    await foundGuild.save();
+                } catch (err) {
+                    message.channel.send("Somethiong went wrong")
+                }
+
+                message.channel.send(`Successfully set your log channel to ${channel}`);
+            break;
+            case "delete":
+                try {
+                    foundGuild.logChannel = null;
+                    await foundGuild.save();
+                } catch (err) {
+                    message.channel.send("Something went wrong");
+                }
+
+                message.channel.send("Successfully deleted your guilds log channel from the database.");
+            break;
+            default: 
+                message.channel.send("Please specify if you would like to set or delete your log channel.");
+            break;
         }
-
-        return message.channel.send(`Successfully set your log channel to ${channel}`);
-
     }
 }
