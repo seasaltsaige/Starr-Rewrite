@@ -8,7 +8,6 @@ export default new class CommandHandler {
 
             for (const file of files) {
                 const command = require(file.path);
-                console.log(command.default.aliases)
                 if (command.default.aliases) {
                     command.default.aliases.forEach(alias => client.aliases.set(alias, file.basename.toLowerCase()));
                 }
