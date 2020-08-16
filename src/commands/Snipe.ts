@@ -8,6 +8,7 @@ export default class Snipe extends BaseCommand {
             name: "snipe",
             usage: "?snipe <channel>",
             aliases: ["sniper"],
+            category: "fun",
             description: "Snipe the last sent message of the channel",
             permissions: ["SEND_MESSAGES"],
             enabled: true,
@@ -17,15 +18,14 @@ export default class Snipe extends BaseCommand {
 
         const channel = message.mentions.channels.first() || message.channel;
 
-        console.log(client.snipes.get({ guild: message.guild.id, channel: message.channel.id }));
-
         const snipeData = client.getSnipe(client, message.guild, channel);
-        console.log(snipeData);
+
         const messageAuthor = message.guild.members.cache.get(snipeData.author);
 
         const embed = new MessageEmbed()
             .setAuthor(messageAuthor.user.tag, messageAuthor.user.displayAvatarURL({ format: "png" }))
-            .setDescription(`${snipeData.content}`);
+            .setDescription(`${snipeData.content}`)
+            .setTimestamp(snipeData.timestamp);
         return message.channel.send(embed);
 
     }

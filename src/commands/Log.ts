@@ -9,6 +9,7 @@ export default class Log extends BaseCommand {
             name: "log",
             usage: "?log <set/delete> <channel>",
             aliases: ["logs"],
+            category: "moderation",
             description: "Set up your log channel!",
             permissions: ["MANAGE_GUILD", "MANAGE_MESSAGES"],
             enabled: true,

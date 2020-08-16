@@ -12,5 +12,5 @@ export default interface EventDataResolvable {
      * The description of the event.
      * Used for data of why that event is being used.
      */
-    description: string
+    description?: string
 }

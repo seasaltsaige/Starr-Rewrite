@@ -5,19 +5,20 @@ import BaseEvent from "../utils/BaseClasses/BaseEvent";
 export default class messageDelete extends BaseEvent {
     constructor() {
         super({
-            name: "messageDelete",
-            description: "Event used to make the snipe feature work."
+            name: "messageDelete"
         })
     }
     public async run(client: StarrClient, message: Message) {
-
-        client.snipes.set({
+        const toSet = JSON.stringify({
             guild: message.guild.id,
             channel: message.channel.id,
-        },
+        });
+
+        client.snipes.set(toSet,
             {
                 content: message.content,
                 author: message.author.id,
+                timestamp: message.createdAt,
                 image: message.attachments.first() ? message.attachments.first().proxyURL : null,
             });
     }

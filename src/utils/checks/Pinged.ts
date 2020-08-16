@@ -13,19 +13,19 @@ export default class Pinged {
         switch (this.type) {
             case "includes":
                 if (this.message.content.includes(`<@${this.client.user.id}>`) || this.message.content.includes(`<@!${this.client.user.id}>`)) {
-                    const customPrefix = await this.client.getGuildPrefix(this.message.guild);
+                    const customPrefix = this.client.cachedPrefixes.get(this.message.guild.id);
                     return `My prefix is ${customPrefix ? customPrefix : this.client.defaultPrefix}`;
                 }
                 break;
             case "start":
                 if (this.message.content.startsWith(`<@${this.client.user.id}>`) || this.message.content.startsWith(`<@!${this.client.user.id}>`)) {
-                    const customPrefix = await this.client.getGuildPrefix(this.message.guild);
+                    const customPrefix = this.client.cachedPrefixes.get(this.message.guild.id);
                     return `My prefix is ${customPrefix ? customPrefix : this.client.defaultPrefix}`;
                 }
                 break;
             case "equals":
                 if (this.message.content === (`<@${this.client.user.id}>`) || this.message.content === (`<@!${this.client.user.id}>`)) {
-                    const customPrefix = await this.client.getGuildPrefix(this.message.guild);
+                    const customPrefix = this.client.cachedPrefixes.get(this.message.guild.id);
                     return `My prefix is ${customPrefix ? customPrefix : this.client.defaultPrefix}`;
                 }
                 break;

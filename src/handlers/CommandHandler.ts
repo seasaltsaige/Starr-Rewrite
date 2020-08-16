@@ -17,6 +17,11 @@ export default new class CommandHandler {
                 // Set the client to use that command.
                 client.commands.set(command.name, command);
                 console.log(`Successfully loaded ` + `${file.basename.toLowerCase()}`);
+
+                if (command.aliases) {
+                    command.aliases.forEach(alias => client.aliases.set(alias, file.basename.toLowerCase()));
+                }
+                client.commands.set(file.basename.toLowerCase(), command);
             }
         });
     }

@@ -7,8 +7,9 @@ export default class Prefix extends BaseCommand {
     constructor() {
         super({
             name: "prefix",
-            usage: "?prefix",
+            usage: "?prefix [default]",
             aliases: ["p"],
+            category: "moderation",
             description: "Set a new prefix for the current guild",
             permissions: ["MANAGE_GUILD"],
             enabled: true,
@@ -21,10 +22,13 @@ export default class Prefix extends BaseCommand {
             id: message.guild.id,
         });
 
+        if (args.length < 1) return message.channel.send("Please provide a prefix to set to!");
+
         foundGuild.prefix = args.join(" ");
 
         try {
             await foundGuild.save();
+            client.cachedPrefixes.set(message.guild.id, args.join(" "));
         } catch (err) {
             return message.channel.send("Something went wrong");
         }

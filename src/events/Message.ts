@@ -8,26 +8,30 @@ import BaseEvent from "../utils/BaseClasses/BaseEvent";
 export default class Message extends BaseEvent {
     constructor() {
         super({
-            name: "message",
-            description: "The event that lets to bot listen to messages."
+            name: "message"
         })
     }
-    public async run(client: StarrClient, message: message) {
-        const prefix = await client.getGuildPrefix(message.guild) || client.defaultPrefix;
 
+    public async run(client: StarrClient, message: message) {
+        const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
+
+        // Check if the bot was pinged
         const Ping = new Pinged({ message, type: "equals", client });
         const pingMess = await Ping.check();
 
+        // If it was, send the response
         if (pingMess) return message.channel.send(pingMess);
 
-
+        // If a user DMs the bot, return
         if (!message.guild) return;
+        // If the message doesn't start with the prefix, return
         if (!message.content.startsWith(prefix)) return;
 
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const commandName = args.shift().toLowerCase();
 
-        const commandFile = client.commands.get(commandName);
+        // Fetch the command file from the Map
+        const commandFile = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
 
         if (commandFile) {
             // Define all our permission checks
