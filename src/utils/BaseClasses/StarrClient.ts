@@ -22,16 +22,16 @@ export default class StarrClient extends Client {
         this.baseOptions = StarrClientInfo.baseOptions;
         this.cachedPrefixes = new Map();
     };
-    getToken (): string | undefined {
+    getToken(): string | undefined {
         return process.env.BOT_TOKEN;
     }
-    async getGuildPrefix (guild: Guild) {
+    async getGuildPrefix(guild: Guild) {
         const foundGuild = await GuildDoc.findOne({ id: guild.id });
         if (!foundGuild) return null;
         const guildPrefix = foundGuild.prefix;
         return guildPrefix;
     }
-    getSnipe (client: StarrClient, guild: Guild, channel: Channel) {
+    getSnipe(client: StarrClient, guild: Guild, channel: Channel) {
         const toget = JSON.stringify({ guild: guild.id, channel: channel.id });
         const snipedata = client.snipes.get(toget);
         return snipedata;

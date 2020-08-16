@@ -2,7 +2,7 @@ import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message, MessageEmbed } from "discord.js";
 
-export default new class Snipe extends BaseCommand {
+export default class Snipe extends BaseCommand {
     constructor() {
         super({
             name: "snipe",
@@ -15,7 +15,7 @@ export default new class Snipe extends BaseCommand {
         });
     }
     async run(client: StarrClient, message: Message, args: Array<string>) {
-        
+
         const channel = message.mentions.channels.first() || message.channel;
 
         const snipeData = client.getSnipe(client, message.guild, channel);
