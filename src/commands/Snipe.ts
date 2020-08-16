@@ -8,6 +8,7 @@ export default new class Snipe extends BaseCommand {
             name: "snipe",
             usage: "?snipe <channel>",
             aliases: ["sniper"],
+            category: "fun",
             description: "Snipe the last sent message of the channel",
             permissions: ["SEND_MESSAGES"],
             enabled: true,

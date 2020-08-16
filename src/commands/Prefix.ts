@@ -9,6 +9,7 @@ export default new class Prefix extends BaseCommand {
             name: "prefix",
             usage: "?prefix [default]",
             aliases: ["p"],
+            category: "moderation",
             description: "Set a new prefix for the current guild",
             permissions: ["MANAGE_GUILD"],
             enabled: true,

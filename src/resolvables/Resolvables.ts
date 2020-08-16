@@ -1,0 +1,1 @@
+export type CategoryResolvable = "general" | "miscellaneous" | "fun" | "games" | "moderation";

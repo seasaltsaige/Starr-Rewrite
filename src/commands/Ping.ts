@@ -8,6 +8,7 @@ export default new class Ping extends BaseCommand {
             name: "ping", 
             usage: "?ping", 
             aliases: ["pong"],
+            category: "miscellaneous",
             description: "Ping Pong",
             permissions: ["SEND_MESSAGES"], 
             enabled: true
