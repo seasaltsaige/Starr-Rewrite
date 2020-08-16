@@ -1,4 +1,4 @@
-import { Client, Snowflake, Guild, Channel } from "discord.js"
+import { Client, Snowflake, Guild, Channel, ClientOptions } from "discord.js"
 import StarrClientInfo from "../../types/StarrClientInfo";
 import GuildDoc from "../../database/models/Guild";
 import SnipeData from "../../types/SnipeData";
@@ -8,6 +8,7 @@ export default class StarrClient extends Client {
     commands: Map<string, any>; 
     owners: Array<Snowflake>;
     snipes: Map<string, SnipeData>;
+    baseOptions: ClientOptions;
 
     constructor(StarrClientInfo: StarrClientInfo) {
         super();
@@ -15,7 +16,7 @@ export default class StarrClient extends Client {
         this.commands = StarrClientInfo.commands; 
         this.owners = StarrClientInfo.owners;
         this.snipes = StarrClientInfo.snipes;
-
+        this.baseOptions = StarrClientInfo.baseOptions;
     };
     getToken (): string | undefined {
         return process.env.BOT_TOKEN;

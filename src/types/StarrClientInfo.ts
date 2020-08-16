@@ -1,9 +1,9 @@
-import { Snowflake } from "discord.js";
-import SnipeKey from "./SnipeKey";
+import { Snowflake, ClientOptions } from "discord.js";
 import SnipeData from "./SnipeData";
 export default interface StarrClientInfo {
     defaultPrefix: string;
     commands: Map<string, object>;
     owners: Array<Snowflake>;
-    snipes: Map<SnipeKey, SnipeData>;
+    snipes: Map<string, SnipeData>;
+    baseOptions?: ClientOptions;
 }
