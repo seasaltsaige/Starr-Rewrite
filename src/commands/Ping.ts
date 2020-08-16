@@ -9,7 +9,7 @@ export default new class Ping extends BaseCommand {
             usage: "?ping", 
             aliases: ["pong"],
             description: "Ping Pong",
-            permissions: ["SEND_MESSAGES", "MANAGE_GUILD", "ADMINISTRATOR"], 
+            permissions: ["SEND_MESSAGES"], 
             enabled: true
         });
     }
