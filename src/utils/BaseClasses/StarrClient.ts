@@ -9,6 +9,7 @@ export default class StarrClient extends Client {
     owners: Array<Snowflake>;
     snipes: Map<string, SnipeData>;
     baseOptions: ClientOptions;
+    cachedPrefixes: Map<string, string>;
 
     constructor(StarrClientInfo: StarrClientInfo) {
         super();
@@ -17,6 +18,7 @@ export default class StarrClient extends Client {
         this.owners = StarrClientInfo.owners;
         this.snipes = StarrClientInfo.snipes;
         this.baseOptions = StarrClientInfo.baseOptions;
+        this.cachedPrefixes = new Map();
     };
     getToken (): string | undefined {
         return process.env.BOT_TOKEN;

@@ -6,4 +6,5 @@ export default interface StarrClientInfo {
     owners: Array<Snowflake>;
     snipes: Map<string, SnipeData>;
     baseOptions?: ClientOptions;
+    // cachedPrefixes: Map<string, string>;
 }

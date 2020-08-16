@@ -7,7 +7,7 @@ export default new class Prefix extends BaseCommand {
     constructor() {
         super({
             name: "prefix",
-            usage: "?prefix",
+            usage: "?prefix [default]",
             aliases: ["p"],
             description: "Set a new prefix for the current guild",
             permissions: ["MANAGE_GUILD"],
@@ -25,6 +25,7 @@ export default new class Prefix extends BaseCommand {
 
         try {
             await foundGuild.save();
+            client.cachedPrefixes.set(message.guild.id, args.join(" "));
         } catch (err) {
             return message.channel.send("Something went wrong");
         }
