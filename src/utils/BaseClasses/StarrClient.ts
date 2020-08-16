@@ -14,9 +14,9 @@ export default class StarrClient extends Client {
     constructor(StarrClientInfo: StarrClientInfo) {
         super();
         this.defaultPrefix = StarrClientInfo.defaultPrefix;
-        this.commands = StarrClientInfo.commands; 
+        this.commands = new Map();
         this.owners = StarrClientInfo.owners;
-        this.snipes = StarrClientInfo.snipes;
+        this.snipes = new Map();
         this.baseOptions = StarrClientInfo.baseOptions;
         this.cachedPrefixes = new Map();
     };
