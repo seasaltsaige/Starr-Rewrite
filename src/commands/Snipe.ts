@@ -17,6 +17,8 @@ export default new class Snipe extends BaseCommand {
         
         const channel = message.mentions.channels.first() || message.channel;
 
+        console.log(client.snipes.get({ guild: message.guild.id, channel: message.channel.id }));
+
         const snipeData = client.getSnipe(client, message.guild, channel);
         console.log(snipeData);
         const messageAuthor = message.guild.members.cache.get(snipeData.author);
