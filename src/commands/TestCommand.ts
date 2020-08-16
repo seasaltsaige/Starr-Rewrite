@@ -10,7 +10,7 @@ export default class TestCommand extends BaseCommand {
             aliases: ["testing", "testy"],
             description: "Test Command",
             permissions: ["SEND_MESSAGES"],
-            enabled: false,
+            enabled: true,
             ownerOnly: false,
         });
     }

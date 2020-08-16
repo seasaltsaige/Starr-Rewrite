@@ -9,8 +9,6 @@ export default new class EventHandler {
             for (const file of files) {
                 if (err) throw err;
 
-                const eventName = file.basename;
-                console.log(file)
                 try {
                     // Import the event
                     const { default: Event } = await import(file.path);
@@ -20,6 +18,7 @@ export default new class EventHandler {
 
                     // Set the client to listen to that event.
                     client.on(event.name, event.run.bind(null, client));
+                    console.log(`Successfully loaded: ` + `${file.basename.toLowerCase()}`);
                 } catch (err) {
                     console.log(err);
                 }

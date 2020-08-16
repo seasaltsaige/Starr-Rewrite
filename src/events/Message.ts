@@ -35,12 +35,12 @@ export default class Message extends BaseEvent {
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
 
             // Check if the command is disabled and if the member is an owner or not
-            if (!commandFile.default.enabled && ownerCheck.check() !== undefined) {
+            if (!commandFile.enabled && ownerCheck.check() !== undefined) {
                 return message.channel.send("This command is disabled for non bot owners!");
             }
 
             // Check if the command is set to bot owners only
-            if (commandFile.default.ownerOnly) {
+            if (commandFile.ownerOnly) {
                 // Check if the member is a bot owner
                 const ownMess = ownerCheck.check();
                 if (ownMess) return message.channel.send(ownMess);
@@ -51,7 +51,7 @@ export default class Message extends BaseEvent {
             if (permMess) return message.channel.send(permMess);
 
             // If all checks pass, run the command
-            return commandFile.default.run(client, message, args);
+            return commandFile.run(client, message, args);
         };
 
     }
