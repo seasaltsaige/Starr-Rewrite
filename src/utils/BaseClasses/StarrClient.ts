@@ -23,6 +23,7 @@ export default class StarrClient extends Client {
     }
     async getGuildPrefix (guild: Guild) {
         const foundGuild = await GuildDoc.findOne({ id: guild.id });
+        if (!foundGuild) return null;
         const guildPrefix = foundGuild.prefix;
         return guildPrefix;
     }

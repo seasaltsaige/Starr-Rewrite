@@ -9,7 +9,6 @@ export default new class CommandHandler {
             for (const file of files) {
                 const command = require(file.path);
                 client.commands.set(file.basename.toLowerCase(), command);
-                console.log(`Successfully loaded ` + `${file.basename.toLowerCase()}`);
             }
         });
     }
