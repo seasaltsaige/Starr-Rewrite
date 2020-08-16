@@ -24,7 +24,7 @@ export default class Message {
         const commandName = args.shift().toLowerCase();
 
         // Fetch the command file from the Map
-        const commandFile = client.commands.get(commandName);
+        const commandFile = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
 
         if (commandFile) {
             // Define all our permission checks

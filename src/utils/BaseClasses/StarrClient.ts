@@ -5,7 +5,8 @@ import SnipeData from "../../types/SnipeData";
 
 export default class StarrClient extends Client {
     defaultPrefix: string;
-    commands: Map<string, any>; 
+    commands: Map<string, any>;
+    aliases: Map<string, string>;
     owners: Array<Snowflake>;
     snipes: Map<string, SnipeData>;
     baseOptions: ClientOptions;
@@ -15,6 +16,7 @@ export default class StarrClient extends Client {
         super();
         this.defaultPrefix = StarrClientInfo.defaultPrefix;
         this.commands = new Map();
+        this.aliases = new Map();
         this.owners = StarrClientInfo.owners;
         this.snipes = new Map();
         this.baseOptions = StarrClientInfo.baseOptions;

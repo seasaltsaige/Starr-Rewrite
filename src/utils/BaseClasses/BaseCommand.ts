@@ -21,6 +21,6 @@ export abstract class BaseCommand {
         this.ownerOnly = BaseCommandInfo.ownerOnly;
     };
 
-    abstract async run(client: StarrClient, message: Message, args: Array<string>);
+    abstract async run(client: StarrClient, message: Message, args: Array<string>): Promise<any>;
 
 }

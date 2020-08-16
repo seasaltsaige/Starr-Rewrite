@@ -21,6 +21,8 @@ export default new class Prefix extends BaseCommand {
             id: message.guild.id,
         });
 
+        if (args.length < 1) return message.channel.send("Please provide a prefix to set to!");
+
         foundGuild.prefix = args.join(" ");
 
         try {
