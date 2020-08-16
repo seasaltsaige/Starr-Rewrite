@@ -35,7 +35,7 @@ export default class Message extends BaseEvent {
 
         if (commandFile) {
             // Define all our permission checks
-            const permissionCheck = new PermissionGaurd({ member: message.member, command: commandFile });
+            const permissionCheck = new PermissionGaurd({ member: message.member });
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
 
             // Check if the command is disabled and if the member is an owner or not
@@ -51,7 +51,7 @@ export default class Message extends BaseEvent {
             }
 
             // Check if the member has the required permissions
-            const permMess = permissionCheck.check();
+            const permMess = permissionCheck.check(commandFile);
             if (permMess) return message.channel.send(permMess);
 
             // If all checks pass, run the command
