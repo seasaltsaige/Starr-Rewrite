@@ -14,7 +14,6 @@ export default class PermissionGaurd {
     // public get member(): GuildMember { return this.PermissionGaurdInfo.member }
 
     check(command: BaseCommand) {
-        console.log(command);
         for (const permission of command.permissions) {
             if (!this.member.permissions.has(permission)) return "You don't have permission to use that command!";
         }

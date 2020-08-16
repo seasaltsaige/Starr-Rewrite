@@ -4,7 +4,7 @@ export default interface GuildDoc extends Document {
     /**
      * The discordId of the guild.
      */
-    id: string
+    id: string;
     /**
      * The prefix of the guild.
      */
@@ -12,5 +12,9 @@ export default interface GuildDoc extends Document {
      /**
      * The logChannel of the guild.
      */
-    logChannel: string | null
+    logChannel: string | null;
+    /**
+     * The current warn number the guild is on
+     */
+    warnNumber: number;
 }
