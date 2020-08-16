@@ -14,8 +14,6 @@ export default new class CommandHandler {
                 }
                 client.commands.set(file.basename.toLowerCase(), command);
             }
-            console.log(client.aliases);
-            console.log(client.commands);
         });
     }
 }
