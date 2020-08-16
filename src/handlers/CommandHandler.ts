@@ -12,7 +12,7 @@ export default new class CommandHandler {
                 const { default: Command } = await import(file.path);
 
                 // Create a new instance of that command.
-                const command = <BaseCommand>new Command();
+                const command = new Command();
 
                 // Set the client to use that command.
                 client.commands.set(command.name, command);

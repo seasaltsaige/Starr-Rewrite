@@ -3,7 +3,7 @@ import StarrClient from "../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 import Guild from "../database/models/Guild";
 
-export default new class Prefix extends BaseCommand {
+export default class Prefix extends BaseCommand {
     constructor() {
         super({
             name: "prefix",
@@ -14,7 +14,7 @@ export default new class Prefix extends BaseCommand {
             enabled: true,
         });
     }
-    async run (client: StarrClient, message: Message, args: Array<string>) {
+    async run(client: StarrClient, message: Message, args: Array<string>) {
         let foundGuild = await Guild.findOne({ id: message.guild.id });
 
         if (!foundGuild) foundGuild = new Guild({
