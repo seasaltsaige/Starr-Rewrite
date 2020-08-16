@@ -1,14 +1,13 @@
 import { Client, Snowflake, Guild, Channel } from "discord.js"
 import StarrClientInfo from "../../types/StarrClientInfo";
 import GuildDoc from "../../database/models/Guild";
-import SnipeKey from "../../types/SnipeKey";
 import SnipeData from "../../types/SnipeData";
 
 export default class StarrClient extends Client {
     defaultPrefix: string;
     commands: Map<string, any>; 
     owners: Array<Snowflake>;
-    snipes: Map<SnipeKey, SnipeData>;
+    snipes: Map<string, SnipeData>;
 
     constructor(StarrClientInfo: StarrClientInfo) {
         super();
@@ -28,10 +27,8 @@ export default class StarrClient extends Client {
         return guildPrefix;
     }
     getSnipe (client: StarrClient, guild: Guild, channel: Channel) {
-        const snipedata = client.snipes.get({ 
-            guild: guild.id,
-            channel: channel.id,
-        });
+        const toget = JSON.stringify({ guild: guild.id, channel: channel.id });
+        const snipedata = client.snipes.get(toget);
         return snipedata;
     }
 }

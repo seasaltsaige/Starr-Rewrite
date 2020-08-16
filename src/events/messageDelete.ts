@@ -3,14 +3,16 @@ import { Message } from "discord.js";
 
 export default class messageDelete {
     static async run(client: StarrClient, message: Message) {
-
-        client.snipes.set({
+        const toSet = JSON.stringify({
             guild: message.guild.id,
             channel: message.channel.id,
-        },
+        });
+
+        client.snipes.set(toSet,
         {
             content: message.content,
             author: message.author.id,
+            timestamp: message.createdAt,
             image: message.attachments.first() ? message.attachments.first().proxyURL : null,
         });
     }
