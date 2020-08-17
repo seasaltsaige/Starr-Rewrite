@@ -1,6 +1,8 @@
 import StarrClient from "../utils/BaseClasses/StarrClient";
 import readdir from "readdir-plus";
 import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
+import("colors");
+
 
 export default new class CommandHandler {
     load(path: string, client: StarrClient): void {
@@ -15,13 +17,13 @@ export default new class CommandHandler {
                 
                 // Set the client to use that command.
                 client.commands.set(command.name, command);
-                console.log(`Successfully loaded ` + `${file.basename.toLowerCase()}`);
 
                 if (command.aliases) {
                     command.aliases.forEach((alias: string) => client.aliases.set(alias, file.basename.toLowerCase()));
                 }
                 client.commands.set(file.basename.toLowerCase(), command);
             }
+            console.log(`Successfully loaded ` + `${client.commands.size} `.red + "commands and " + `${client.aliases.size} `.green + "command aliases");
         });
     }
 }

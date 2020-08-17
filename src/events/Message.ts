@@ -39,7 +39,7 @@ export default class Message extends BaseEvent {
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
 
             // Check if the command is disabled and if the member is an owner or not
-            if (!commandFile.enabled && ownerCheck.check() !== undefined) {
+            if (commandFile.enabled !== undefined && !commandFile.enabled && ownerCheck.check() !== undefined) {
                 return message.channel.send("This command is disabled for non bot owners!");
             }
 
