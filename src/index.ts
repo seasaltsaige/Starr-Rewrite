@@ -4,7 +4,17 @@ dotenv.config(); // Execute the config to bind env to the process
 
 // Import my Extended client
 import Client from "./utils/BaseClasses/StarrClient";
-const StarrClient = new Client({ defaultPrefix: "?", owners: [ "408080307603111936" ], baseOptions: { ws: { properties: { $browser: "Discord iOS" } } } }); // Initialize the new client
+const StarrClient = new Client({ 
+    defaultPrefix: "?", 
+    owners: [ "408080307603111936" ], 
+    baseOptions: { 
+        partials: ["MESSAGE", "REACTION"],
+    } 
+}); // Initialize the new client
+
+import { Constants } from "discord.js";
+Constants.DefaultOptions.ws.properties.$browser = "Discord iOS";
+
 StarrClient.login(StarrClient.getToken()); // Login
 import("./database/database"); // Startup the database connection
 
