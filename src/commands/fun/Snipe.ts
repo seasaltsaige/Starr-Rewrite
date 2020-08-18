@@ -1,5 +1,5 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, MessageEmbed } from "discord.js";
 
 export default new class Snipe extends BaseCommand {

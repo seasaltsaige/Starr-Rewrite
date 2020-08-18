@@ -1,8 +1,8 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 
-import Guild from "../database/models/Guild";
+import Guild from "../../database/models/Guild";
 
 export default new class Warn extends BaseCommand {
     constructor() {
@@ -16,7 +16,7 @@ export default new class Warn extends BaseCommand {
         });
     }
     async run(client: StarrClient, message: Message, args: Array<string>) {
-        const warnedMember = message.mentions.members.first();
+        const warnedMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
         if (!warnedMember) return message.channel.send("Please mention someone to warn!");
 
@@ -24,21 +24,23 @@ export default new class Warn extends BaseCommand {
 
         if (!foundGuild) foundGuild = new Guild({ id: message.guild.id });
 
-        let caseId = foundGuild.warnNumber.toString();
+        let caseId = foundGuild.infractionNumber.toString();
 
         caseId = caseId.padStart(5, "0");
 
         let reason = args.slice(1, args.length).join(" ");
 
-        if (!reason) reason = `\`No Reason Provided\` - Use \`${await client.getGuildPrefix(message.guild)}editwarn ${caseId} <New Reason>\` to set a new reason.`;
+        if (!reason) reason = `\`No Reason Provided\` - Use \`${await client.getGuildPrefix(message.guild)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
 
-        foundGuild.warns.push({
+        foundGuild.infractions.push({
             user: warnedMember.id,
-            warn: reason,
+            description: reason,
             caseId,
+            infractionType: "warn",
+            date: new Date(),
         });
 
-        foundGuild.warnNumber++;
+        foundGuild.infractionNumber++;
 
 
         try {
@@ -47,7 +49,7 @@ export default new class Warn extends BaseCommand {
             return message.channel.send("Something went wrong while warning that user");
         }
 
-        return message.channel.send(`Successfully warned **${warnedMember.user.tag}** for ${reason} with a warn ID of #${caseId}`);
+        return message.channel.send(`Successfully warned **${warnedMember.user.tag}** for ${reason} with a infraction ID of #${caseId}`);
 
     }
 }

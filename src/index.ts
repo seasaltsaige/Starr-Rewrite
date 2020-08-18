@@ -20,6 +20,7 @@ import("./database/database"); // Startup the database connection
 
 import CommandHandler from "./handlers/CommandHandler"; // Import the command handler
 import EventHandler from "./handlers/EventHandler"; // Import the event handler
+import { Categories } from "./resolvables/Resolvables"; // Import the categories for the command handler
 
-CommandHandler.load("./src/commands", StarrClient); // Execute both to initialize the commands and events
+CommandHandler.load("./src/commands", Categories, StarrClient); // Execute both to initialize the commands and events
 EventHandler.load("./src/events", StarrClient);

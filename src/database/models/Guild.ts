@@ -5,8 +5,8 @@ const Guild = new Schema({
     id: { type: String, required: true },
     prefix: { type: String, default: null },
     logChannel: { type: String,  default: null },
-    warnNumber: { type: Number,  default: 1 },
-    warns: { type: Array,  default: [] },
+    infractionNumber: { type: Number,  default: 1 },
+    infractions: { type: Array,  default: [] },
 });
 
 export default model<GuildDoc>("guild", Guild);

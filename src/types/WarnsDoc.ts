@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import WarnInterface from "./WarnObjectInterface";
+import WarnInterface from "./InfractionInterface";
 import { Snowflake } from "discord.js";
 
 export default interface WarnsDoc extends Document {
