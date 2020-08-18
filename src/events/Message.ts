@@ -56,7 +56,7 @@ export default class Message extends BaseEvent {
             if (permMess) return message.channel.send(permMess);
 
             // Check if they are on cooldown
-            if (commandFile.cooldown && !commandFile.cooldown.check(message, commandFile)) return
+            if (commandFile.cooldown && !commandFile.cooldown.check(message, commandFile, client)) return
             // If all checks pass, run the command
             return commandFile.run(client, message, args);
         };

@@ -1,5 +1,6 @@
 import { BaseCommand } from "../BaseClasses/BaseCommand"
 import { Message } from "discord.js"
+import StarrClient from "../BaseClasses/StarrClient";
 
 export default class Cooldown {
 
@@ -19,9 +20,10 @@ export default class Cooldown {
      * @param message - The message that was sent.
      * @param command - The command the cooldown is on an the user is trying to run with the message.
      */
-    public check(message: Message, command: BaseCommand): boolean {
+    public check(message: Message, command: BaseCommand, client: StarrClient): boolean {
         this.message = message
         this.command = command
+        if (client.owners.includes(message.author.id)) return true
 
         const foundObj = this.map.get(message.author.id)
         if (!foundObj) {
