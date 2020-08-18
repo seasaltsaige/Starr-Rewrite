@@ -1,11 +1,13 @@
 import { Message, PermissionResolvable, GuildMember } from "discord.js";
 import BaseCommandInfo from "../../types/BaseCommandInfo";
 import StarrClient from "./StarrClient";
+import { CategoryResolvable } from "../../resolvables/Resolvables";
 
 export abstract class BaseCommand {
     name: string;
     usage: string;
     aliases: Array<string>;
+    category: CategoryResolvable;
     description: string;
     permissions: Array<PermissionResolvable>;
     enabled: boolean;
@@ -18,6 +20,7 @@ export abstract class BaseCommand {
         this.description = BaseCommandInfo.description;
         this.permissions = BaseCommandInfo.permissions;
         this.enabled = BaseCommandInfo.enabled;
+        this.category = BaseCommandInfo.category;
         this.ownerOnly = BaseCommandInfo.ownerOnly;
     };
 

@@ -1,8 +1,8 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 
-import Guild from "../database/models/Guild";
+import Guild from "../../database/models/Guild";
 
 export default new class Warn extends BaseCommand {
     constructor() {

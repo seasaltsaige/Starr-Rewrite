@@ -1,7 +1,7 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, MessageEmbed, MessageReaction, User } from "discord.js";
-import Guild from "../database/models/Guild";
+import Guild from "../../database/models/Guild";
 
 export default new class ViewWarns extends BaseCommand {
     constructor() {

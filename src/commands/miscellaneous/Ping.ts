@@ -1,5 +1,5 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 
 export default new class Ping extends BaseCommand {

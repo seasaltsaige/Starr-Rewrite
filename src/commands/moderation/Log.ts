@@ -1,7 +1,7 @@
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
+import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, GuildMember } from "discord.js";
-import Guild from "../database/models/Guild";
+import Guild from "../../database/models/Guild";
 
 export default new class Log extends BaseCommand {
     constructor() {

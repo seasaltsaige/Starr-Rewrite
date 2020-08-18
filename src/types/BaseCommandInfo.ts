@@ -34,4 +34,8 @@ export default interface BaseCommandInfo {
      * If the command is locked to bot owners only
      */
     ownerOnly?: boolean;
+    /**
+     * If you should log command usage
+     */
+    log?: object;
 } 
