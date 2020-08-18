@@ -1,6 +1,6 @@
 // Import dotenv for environment variables
-import dotenv from "dotenv";
-dotenv.config(); // Execute the config to bind env to the process
+import { config } from "dotenv";
+config(); // Execute the config to bind env to the process
 
 // Import my Extended client
 import Client from "./utils/BaseClasses/StarrClient";
