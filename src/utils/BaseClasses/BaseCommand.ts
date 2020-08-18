@@ -1,6 +1,7 @@
 import { Message, PermissionResolvable, GuildMember } from "discord.js";
 import BaseCommandInfo from "../../types/BaseCommandInfo";
 import StarrClient from "./StarrClient";
+import Cooldown from "../checks/Cooldown";
 
 export abstract class BaseCommand {
     name: string;
@@ -10,6 +11,7 @@ export abstract class BaseCommand {
     permissions: Array<PermissionResolvable>;
     enabled: boolean;
     ownerOnly: boolean;
+    public cooldown: Cooldown
 
     constructor(BaseCommandInfo: BaseCommandInfo) {
         this.name = BaseCommandInfo.name;
@@ -19,6 +21,7 @@ export abstract class BaseCommand {
         this.permissions = BaseCommandInfo.permissions;
         this.enabled = BaseCommandInfo.enabled;
         this.ownerOnly = BaseCommandInfo.ownerOnly;
+        if (BaseCommandInfo.cooldown) this.cooldown = new Cooldown(BaseCommandInfo.cooldown)
     };
 
     abstract async run(client: StarrClient, message: Message, args: Array<string>): Promise<any>;

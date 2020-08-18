@@ -34,4 +34,8 @@ export default interface BaseCommandInfo {
      * If the command is locked to bot owners only
      */
     ownerOnly?: boolean;
+    /**
+     * The cooldown number of the command.
+     */
+    cooldown?: number
 } 

@@ -4,6 +4,7 @@ import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
 import BaseEvent from "../utils/BaseClasses/BaseEvent";
+import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 
 export default class Message extends BaseEvent {
     constructor() {
@@ -31,7 +32,7 @@ export default class Message extends BaseEvent {
         const commandName = args.shift().toLowerCase();
 
         // Fetch the command file from the Map
-        const commandFile = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
+        const commandFile: BaseCommand = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
 
         if (commandFile) {
             // Define all our permission checks
@@ -54,6 +55,8 @@ export default class Message extends BaseEvent {
             const permMess = permissionCheck.check(commandFile);
             if (permMess) return message.channel.send(permMess);
 
+            // Check if they are on cooldown
+            if (commandFile.cooldown && !commandFile.cooldown.check(message, commandFile)) return
             // If all checks pass, run the command
             return commandFile.run(client, message, args);
         };
