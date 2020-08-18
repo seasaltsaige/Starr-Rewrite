@@ -6,12 +6,12 @@ export default class Cooldown {
     private map: Map<string, BaseCommand> = new Map()
     private message: Message;
     private command: BaseCommand;
+    private cooldownAddedAt: Date;
+    private errMessages: Array<Message> = [];
 
     constructor(public time: number) { }
 
-    /**
-     * Sets the cooldown on the command.
-     */
+
     public setTime(time: number): void { this.time = time }
 
     /**
@@ -22,9 +22,10 @@ export default class Cooldown {
     public check(message: Message, command: BaseCommand): boolean {
         this.message = message
         this.command = command
+
         const foundObj = this.map.get(message.author.id)
         if (!foundObj) {
-            this.handleNotFoundObj()
+            this.addUser()
             return true
         } else if (foundObj) {
             this.sendErrMessage()
@@ -32,26 +33,33 @@ export default class Cooldown {
         }
     }
 
-    private sendErrMessage(): Promise<Message> {
+    private sendErrMessage(): Promise<void> {
         const amount = this.calcSeconds()
-        return this.message.channel.send(`You are on cooldown please wait ${amount}s.`)
+        return this.message.channel.send(`Please wait \`${amount}s\` before using \`${this.command.name}\` again.`).then(m => {
+            this.errMessages.push(m)
+        })
     }
 
     private calcSeconds(): number {
-        console.log("called", Date.now())
-        const test = (this.time - Date.now()) / 1000
-        console.log(test)
-        return test
+        const canUseAgainAt = new Date(this.cooldownAddedAt.getTime() + this.time)
+        return (canUseAgainAt.getTime() - Date.now()) / 1000
     }
 
-    private handleNotFoundObj(): void {
+    private addUser(): void {
         this.map.set(this.message.author.id, this.command)
-        this.handleRemoveUser();
+        this.cooldownAddedAt = new Date()
+        this.removeUser();
     }
 
-    private handleRemoveUser(): void {
+    private removeUser(): void {
         setTimeout(() => {
             this.map.delete(this.message.author.id)
+            this.deleteMessages()
         }, this.time)
+    }
+
+    private deleteMessages(): void {
+        console.log(this.errMessages[0])
+        this.errMessages[0].channel.bulkDelete(this.errMessages)
     }
 }
