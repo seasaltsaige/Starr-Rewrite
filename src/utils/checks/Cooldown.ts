@@ -61,7 +61,8 @@ export default class Cooldown {
     }
 
     private deleteMessages(): void {
-        console.log(this.errMessages[0])
-        this.errMessages[0].channel.bulkDelete(this.errMessages)
+        if (this.errMessages[0]) {
+            this.errMessages[0].channel.bulkDelete(this.errMessages)
+        }
     }
 }
