@@ -7,12 +7,12 @@ export default new class EditWarn extends BaseCommand {
 
     constructor() {
         super({
-            name: "editwarn",
-            usage: "?editwarn <warnId> <New Reason>",
-            aliases: [],
+            name: "editinfraction",
+            usage: "?editinfraction <caseID> <New Reason>",
+            aliases: ["editinf", "ef", "edinfraction"],
             category: "moderation",
             permissions: ["MANAGE_MESSAGES"],
-            description: "Edit a warn",
+            description: "Edit a infraction reason based of of infraction ID",
         });
     }
     async run(client: StarrClient, message: Message, args: string[]) {
@@ -27,11 +27,11 @@ export default new class EditWarn extends BaseCommand {
         if (!newReason) return message.channel.send("Please provide a valid new reason!");
 
         
-        const CASE = foundGuild.warns.find(warn => warn.caseId === caseId);
+        const CASE = foundGuild.infractions.find(infraction => infraction.caseId === caseId && infraction.infractionType === "warn");
         
         if (!CASE) return message.channel.send("That case doesn't exist in the database!");
 
-        foundGuild.warns.find(warn => warn.caseId === caseId).warn = newReason;
+        foundGuild.infractions.find(infraction => infraction.caseId === caseId && infraction.infractionType === "warn").description = newReason;
 
         try {
             await foundGuild.updateOne(foundGuild);
