@@ -7,6 +7,7 @@ const Guild = new Schema({
     logChannel: { type: String,  default: null },
     infractionNumber: { type: Number,  default: 1 },
     infractions: { type: Array,  default: [] },
+    modRoles_Users: { type: Array, default: [] },
 });
 
 export default model<GuildDoc>("guild", Guild);

@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 import Infraction from "./InfractionInterface";
-import { Snowflake } from "discord.js";
+import { Snowflake, GuildMember, Role } from "discord.js";
 
 export default interface GuildDoc extends Document {
     /**
@@ -23,4 +23,8 @@ export default interface GuildDoc extends Document {
      * The array of warned users and they're coresponding reasons and ID's
      */
     infractions: Array<Infraction>;
+    /**
+     * Roles and Members to ignore for auto moderation actions
+     */
+    modRoles_Users: Array<GuildMember | Role>;
 }

@@ -23,7 +23,9 @@ export default class MessageDelete extends BaseEvent {
         });
 
         const ghostPing = new GhostPing(message);
-        const checked = ghostPing.check();
+        const checked = await ghostPing.check();
+
+        // console.log(checked);
 
         if (checked) return message.channel.send(checked);
 
