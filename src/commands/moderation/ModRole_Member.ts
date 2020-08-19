@@ -30,12 +30,15 @@ export default new class Mod extends BaseCommand {
 
         switch (add_remove) {
             case "add": 
+                // @ts-ignore
+                if (guild.modRoles_Users.find(m => m === member_role.id)) return message.channel.send(`That ${member_role instanceof Role ? "role" : "member"} has already been added to the ignored list!`);
 
                 guild.modRoles_Users.push(member_role);
 
             break;
             case "remove":
-
+                // @ts-ignore
+                if (!guild.modRoles_Users.find(m => m === member_role.id)) return message.channel.send(`That ${member_role instanceof Role ? "role" : "member"} doesn't exist in the the ignored list!`);
                 guild.modRoles_Users.splice(guild.modRoles_Users.indexOf(member_role), 1);
 
             break;
@@ -45,9 +48,9 @@ export default new class Mod extends BaseCommand {
         try {
             await guild.updateOne(guild);
         } catch (err) {
-            return message.channel.send("temp err msg");
+            return message.channel.send(`Something went wrong while ${add_remove === "add" ? "adding" : "removing"} that ${member_role instanceof Role ? "role" : "member"} from the database`);
         };
 
-        return message.channel.send(`Successfully added ${member_role instanceof Role ? member_role.name : member_role.user.tag} to the ignored auto-mod list`);
+        return message.channel.send(`Successfully ${add_remove === "add" ? "added" : "removed"} ${member_role instanceof Role ? member_role.name : member_role.user.tag} ${add_remove === "add" ? "to" : "from"} the ignored auto-mod list`);
     }
 }
