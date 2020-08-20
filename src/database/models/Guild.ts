@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose"; 
-import GuildDoc from "../../types/GuildDoc";
+import GuildDoc from "../SchemaInterfaces/GuildDoc";
 
 const Guild = new Schema({
     id: { type: String, required: true },
@@ -7,6 +7,9 @@ const Guild = new Schema({
     logChannel: { type: String,  default: null },
     infractionNumber: { type: Number,  default: 1 },
     infractions: { type: Array,  default: [] },
+    modRoles_Users: { type: Array, default: [] },
+    muteRole: { type: String, default: "" },
+    mutedUsers: { type: Array, default: [] },
 });
 
 export default model<GuildDoc>("guild", Guild);

@@ -9,7 +9,7 @@ export default class Pinged {
     public get client(): StarrClient { return this.pingedInfo.client }
     public get type(): string { return this.pingedInfo.type }
 
-    public async check() {
+    public check() {
         switch (this.type) {
             case "includes":
                 if (this.message.content.includes(`<@${this.client.user.id}>`) || this.message.content.includes(`<@!${this.client.user.id}>`)) {

@@ -18,7 +18,7 @@ export default class Message extends BaseEvent {
 
         // Check if the bot was pinged
         const Ping = new Pinged({ message, type: "equals", client });
-        const pingMess = await Ping.check();
+        const pingMess = Ping.check();
 
         // If it was, send the response
         if (pingMess) return message.channel.send(pingMess);
