@@ -26,7 +26,7 @@ export default new class Strike extends BaseCommand {
 
         caseId = caseId.padStart(5, "0");
 
-        let reason = args.slice(1, args.length).join(" ");
+        let reason = args.slice(1).join(" ");
 
         if (!reason) reason = `\`No Reason Provided\` - Use \`${await client.getGuildPrefix(message.guild)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
 

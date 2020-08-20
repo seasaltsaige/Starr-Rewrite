@@ -1,5 +1,5 @@
 import StarrClient from "../BaseClasses/StarrClient";
-import GuildDoc from "../../types/GuildDoc";
+import GuildDoc from "../../database/SchemaInterfaces/GuildDoc";
 import { Guild } from "discord.js";
 
 export default class CachePrefixes {

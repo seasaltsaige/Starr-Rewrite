@@ -6,5 +6,4 @@ export default interface Infraction {
     user: Snowflake;
     description: string;
     date: Date;
-    autoUnMute_UnBan?: Date;
 }
