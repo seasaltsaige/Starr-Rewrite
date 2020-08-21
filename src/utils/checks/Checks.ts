@@ -11,7 +11,6 @@ export default class Checks {
     private prefix = this.client.cachedPrefixes.get(this.message.guild.id) || this.client.defaultPrefix;
     private permissionCheck = new PermissionGuard({ member: this.message.member });
     private ownerCheck = new OwnerGuard({ owners: this.client.owners, member: this.message.member });
-    private ping = new Pinged({ message: this.message, type: "equals", client: this.client });
 
     constructor(
         private message: Message,
@@ -25,8 +24,6 @@ export default class Checks {
      * @param next The method that should run if the checks pass. Should be the command's run method.
      */
     public check(next: BaseCommand["run"]): void {
-        console.log(this.wasPinged())
-        this.wasPinged()
         if (this.wasDm()) return
         if (!this.doesStartWithPrefix()) return
         if (this.isCommandDisabled()) return
@@ -35,24 +32,6 @@ export default class Checks {
         if (!this.isOnCooldown()) return
         console.log("calling...")
         next(this.client, this.message, this.args)
-    }
-
-    /**
-     * Check if the bot was pinged
-     */
-    private wasPinged() {
-        console.log("ping method was called.")
-        const pingMess = this.ping.check()
-        console.log(pingMess)
-        if (pingMess) {
-            console.log("ping message exists")
-            this.message.channel.send(pingMess);
-            console.log("returning true")
-            console.log(pingMess)
-            return true;
-        }
-        console.log("returning false.")
-        return false;
     }
 
     /**

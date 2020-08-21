@@ -15,6 +15,7 @@ export default class Message extends BaseEvent {
     }
 
     public async run(client: StarrClient, message: message) {
+        // Get the prefix for the guild.
         const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
 
         // Check if the bot was pinged
@@ -23,8 +24,6 @@ export default class Message extends BaseEvent {
 
         // If it was, send the response
         if (pingMess) return message.channel.send(pingMess);
-
-        // Get the prefix for the guild.
 
         // Get the command name and args from the message.
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
