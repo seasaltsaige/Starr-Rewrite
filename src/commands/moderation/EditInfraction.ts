@@ -26,9 +26,9 @@ export default new class EditWarn extends BaseCommand {
         const newReason = args.slice(1).join(" ");
         if (!newReason) return message.channel.send("Please provide a valid new reason!");
 
-        
+
         const CASE = foundGuild.infractions.find(infraction => infraction.caseId === caseId);
-        
+
         if (!CASE) return message.channel.send("That case doesn't exist in the database!");
 
         foundGuild.infractions.find(infraction => infraction.caseId === caseId).description = newReason;

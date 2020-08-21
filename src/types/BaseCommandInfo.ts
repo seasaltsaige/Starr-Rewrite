@@ -35,7 +35,13 @@ export default interface BaseCommandInfo {
      */
     ownerOnly?: boolean;
     /**
+<<<<<<< HEAD
+     * The cooldown number of the command.
+     */
+    cooldown?: number
+=======
      * If you should log command usage
      */
     log?: object;
+>>>>>>> 6dba825669ef4560fdc123ef083ba3ea1695e34f
 } 

@@ -12,7 +12,7 @@ export default class Ready extends BaseEvent {
     }
     public async run(client: StarrClient) {
 
-        // Initiate the prefix cacher
+        // Initiate the prefix cache.
         const Prefix = new CachePrefixes(client);
 
         // Cache all prefixes that may be in the database for quicker fetch times

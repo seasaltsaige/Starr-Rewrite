@@ -11,7 +11,8 @@ export default new class Ping extends BaseCommand {
             category: "miscellaneous",
             description: "Ping Pong",
             permissions: ["SEND_MESSAGES"],
-            enabled: true
+            enabled: true,
+            cooldown: 10000
         });
     }
 
