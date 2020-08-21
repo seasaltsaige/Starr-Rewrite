@@ -15,9 +15,16 @@ export default class Message extends BaseEvent {
     }
 
     public async run(client: StarrClient, message: message) {
+        const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
+
+        // Check if the bot was pinged
+        const Ping = new Pinged({ message, type: "equals", client });
+        const pingMess = Ping.check();
+
+        // If it was, send the response
+        if (pingMess) return message.channel.send(pingMess);
 
         // Get the prefix for the guild.
-        const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
 
         // Get the command name and args from the message.
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -28,6 +35,7 @@ export default class Message extends BaseEvent {
         if (command) {
             // Handle all checks. If they pass the run method will be called.
             const checks = new Checks(message, client, command, args)
+            console.log("checkings..")
             checks.check(command.run)
         }
     }

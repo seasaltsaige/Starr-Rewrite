@@ -62,6 +62,7 @@ export default class Cooldown {
 
     private deleteMessages(): void {
         if (this.errMessages[0]) {
+            //@ts-ignore
             this.errMessages[0].channel.bulkDelete(this.errMessages)
         }
     }
