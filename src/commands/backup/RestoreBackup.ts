@@ -86,7 +86,7 @@ export default new class RestoreBackup extends BaseCommand {
                     deleteOld = !deleteOld;
                 break;
                 case "✅":
-                if (!messageFlag && !roleFlag && !rolePermFlag && !channelsFlag && !channelPermFlag && !emojisFlag && !serverNameFlag && !serverIconFlag && !serverSettingsFlag) return message.channel.send("You can't start your server restore with no settings selected!").then(m => m.delete({ timeout: 10000 }));
+                if (!messageFlag && !roleFlag && !rolePermFlag && !channelsFlag && !channelPermFlag && !emojisFlag && !serverNameFlag && !serverIconFlag && !serverSettingsFlag && !deleteOld) return message.channel.send("You can't start your server restore with no settings selected!").then(m => m.delete({ timeout: 10000 }));
                 return collector.stop("success+");
                 case "❌":
                 return collector.stop("cancelled");
@@ -203,7 +203,7 @@ export default new class RestoreBackup extends BaseCommand {
 
 
             // Load in each channels messages
-            if (messageFlag) {
+            if (messageFlag && channelsFlag) {
                 Backup.data.channels.forEach(async channel => {
                     if (channel.type === "text" || channel.type === "news") {
                         const chtosend = message.guild.channels.cache.find(ch => ch.name === channel.name);
