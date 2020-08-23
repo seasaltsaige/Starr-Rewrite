@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type InfractionType {
+  infractionType: String!
+  caseId: String!
+  user: String!
+  description: String!
+  date: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MutedUserType {
+  id: String!
+  unmute: String!
+  oldRoles: [String!]!
+}
+
+type GuildType {
+  id: String!
+  prefix: String
+  logChannel: String
+  infractionNumber: Float!
+  muteRole: String!
+  infractions: [InfractionType!]!
+  modRoles_Users: [String!]!
+  mutedUsers: [MutedUserType!]!
+}
+
+type Query {
+  guild(id: String!): GuildType
+  guilds: [GuildType!]
+}
+
+type Mutation {
+  updatePrefix(prefix: String!, id: String!): GuildType
+}

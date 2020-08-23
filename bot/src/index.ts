@@ -4,12 +4,12 @@ dotenv.config(); // Execute the config to bind env to the process
 
 // Import my Extended client
 import Client from "./utils/BaseClasses/StarrClient";
-const StarrClient = new Client({ 
-    defaultPrefix: "?", 
-    owners: [ "408080307603111936" ], 
-    baseOptions: { 
+const StarrClient = new Client({
+    defaultPrefix: "?",
+    owners: ["408080307603111936"],
+    baseOptions: {
         partials: ["MESSAGE", "REACTION"],
-    } 
+    }
 }); // Initialize the new client
 
 import { Constants } from "discord.js";

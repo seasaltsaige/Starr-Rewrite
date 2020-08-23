@@ -1,27 +1,21 @@
 {
-  "name": "first-project",
+  "name": "Starr-Rewrite",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bot": "npm run dev --prefix bot",
+    "nest": "npm run start:dev --prefix nest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CreeperPlanet26/Starr-Rewrite.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/mongoose": "^5.7.36",
-    "@types/node": "^14.0.27",
-    "canvas": "^2.6.1",
-    "colors": "^1.4.0",
-    "discord.js": "^12.3.1",
-    "dotenv": "^8.2.0",
-    "mongoose": "^5.10.0",
-    "node-canvas-with-twemoji": "^0.1.1",
-    "readdir-plus": "^1.1.1"
+  "bugs": {
+    "url": "https://github.com/CreeperPlanet26/Starr-Rewrite/issues"
   },
-  "devDependencies": {
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
-  }
+  "homepage": "https://github.com/CreeperPlanet26/Starr-Rewrite#readme",
 }
