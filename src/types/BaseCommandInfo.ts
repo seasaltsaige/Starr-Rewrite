@@ -37,5 +37,9 @@ export default interface BaseCommandInfo {
     /**
      * If you should log command usage
      */
-    log?: object;
+    // log?: object;
+    /**
+     * If the command should be locked to server owners only
+     */
+    g_owner_only?: boolean;
 } 

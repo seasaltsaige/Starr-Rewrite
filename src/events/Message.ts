@@ -4,6 +4,8 @@ import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
 import BaseEvent from "../utils/BaseClasses/BaseEvent";
+import GuildOwner from "../utils/checks/GuildOwner";
+import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
 
 export default class Message extends BaseEvent {
     constructor() {
@@ -13,6 +15,8 @@ export default class Message extends BaseEvent {
     }
 
     public async run(client: StarrClient, message: message) {
+        if (!message.guild) return;
+        if (message.author.bot) return;
         const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
 
         // Check if the bot was pinged
@@ -31,12 +35,15 @@ export default class Message extends BaseEvent {
         const commandName = args.shift().toLowerCase();
 
         // Fetch the command file from the Map
-        const commandFile = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
+        const commandFile: BaseCommand = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
 
         if (commandFile) {
             // Define all our permission checks
             const permissionCheck = new PermissionGaurd({ member: message.member });
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
+            const guildOwner = new GuildOwner(message, message.guild, commandFile);
+
+            if (!guildOwner.check()) return message.channel.send(`${commandFile.name} is locked to guild owner only!`);
 
             // Check if the command is disabled and if the member is an owner or not
             if (commandFile.enabled !== undefined && !commandFile.enabled && ownerCheck.check() !== undefined) {

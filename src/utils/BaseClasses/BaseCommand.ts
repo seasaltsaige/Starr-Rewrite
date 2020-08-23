@@ -12,6 +12,7 @@ export abstract class BaseCommand {
     permissions: Array<PermissionResolvable>;
     enabled: boolean;
     ownerOnly: boolean;
+    g_owner_only?: boolean;
 
     constructor(BaseCommandInfo: BaseCommandInfo) {
         this.name = BaseCommandInfo.name;
@@ -22,6 +23,7 @@ export abstract class BaseCommand {
         this.enabled = BaseCommandInfo.enabled;
         this.category = BaseCommandInfo.category;
         this.ownerOnly = BaseCommandInfo.ownerOnly;
+        this.g_owner_only = BaseCommandInfo.g_owner_only;
     };
 
     abstract async run(client: StarrClient, message: Message, args: Array<string>): Promise<any>;
