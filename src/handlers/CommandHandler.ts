@@ -15,7 +15,7 @@ export default new class CommandHandler {
                     // Import the command.
                     const { default: Command } = await import(file.path);
 
-                    const command: BaseCommand = Command;
+                    const command: BaseCommand = new Command();
 
                     if (command.category !== path) throw new ReferenceError("Command category must be the same as file path");
 

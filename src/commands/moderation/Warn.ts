@@ -4,7 +4,7 @@ import { Message } from "discord.js";
 
 import Guild from "../../database/models/Guild";
 
-export default new class Warn extends BaseCommand {
+export default class Warn extends BaseCommand {
     constructor() {
         super({
             name: "warn",

@@ -1,7 +1,7 @@
 import { Client, Snowflake, Guild, Channel, ClientOptions } from "discord.js"
-import StarrClientInfo from "../../types/StarrClientInfo";
+import StarrClientInfo from "../types/StarrClientInfo";
 import GuildDoc from "../../database/models/Guild";
-import SnipeData from "../../types/SnipeData";
+import SnipeData from "../types/SnipeData";
 
 export default class StarrClient extends Client {
     defaultPrefix: string;

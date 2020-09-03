@@ -3,7 +3,7 @@ import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 import Guild from "../../database/models/Guild";
 
-export default new class Kick extends BaseCommand {
+export default class Kick extends BaseCommand {
     constructor() {
         super({
             name: "kick",

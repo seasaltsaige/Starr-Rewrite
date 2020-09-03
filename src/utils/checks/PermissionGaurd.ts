@@ -1,4 +1,4 @@
-import PermissionGaurdInfo from "../../types/PermissionGaurdInfo";
+import PermissionGaurdInfo from "../types/PermissionGaurdInfo";
 import { GuildMember, Message } from "discord.js";
 import { BaseCommand } from "../BaseClasses/BaseCommand";
 

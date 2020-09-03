@@ -3,7 +3,7 @@ import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 import Guild from "../../database/models/Guild";
 
-export default new class Prefix extends BaseCommand {
+export default class Prefix extends BaseCommand {
     constructor() {
         super({
             name: "prefix",

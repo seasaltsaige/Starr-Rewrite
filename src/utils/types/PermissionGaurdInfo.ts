@@ -1,5 +1,5 @@
 import { GuildMember, Message } from "discord.js";
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
+import { BaseCommand } from "../BaseClasses/BaseCommand";
 
 export default interface PermissionGaurdInfo {
     member: GuildMember;

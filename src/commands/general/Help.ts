@@ -1,9 +1,9 @@
 import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
 import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
-import { CategoryResolvable } from "../../resolvables/Resolvables";
+import { CategoryResolvable } from "../../utils/resolvables/Resolvables";
 
-export default new class Help extends BaseCommand {
+export default class Help extends BaseCommand {
     constructor() {
         super({
             name: "help",

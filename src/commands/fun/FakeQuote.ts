@@ -2,10 +2,10 @@ import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
 import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, Snowflake, MessageAttachment } from "discord.js";
 import { createCanvas, registerFont, loadImage } from "canvas";
-import roundRect from "../../functions/roundRect";
+import roundRect from "../../utils/functions/roundRect";
 import { fillTextWithTwemoji } from "node-canvas-with-twemoji";
 
-export default new class FakeQuote extends BaseCommand {
+export default class FakeQuote extends BaseCommand {
     constructor() {
         super({
             name: "fakequote",
@@ -44,10 +44,10 @@ export default new class FakeQuote extends BaseCommand {
             imgMsg = imgMsg.replace(word, `|@${id}|`);
         }
 
-        registerFont("./src/fonts/Whitney-Book.ttf", {
+        registerFont("./src/utils/fonts/Whitney-Book.ttf", {
             family: "whitney",
         });
-        registerFont("./src/fonts/whitney-medium.otf", {
+        registerFont("./src/utils/fonts/whitney-medium.otf", {
             family: "whitneyMedium",
         });
 

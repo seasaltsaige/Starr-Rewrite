@@ -3,7 +3,7 @@ import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, MessageEmbed, MessageReaction, User } from "discord.js";
 import Guild from "../../database/models/Guild";
 
-export default new class ViewWarns extends BaseCommand {
+export default class ViewWarns extends BaseCommand {
     constructor() {
         super({
             name: "viewinfractions",

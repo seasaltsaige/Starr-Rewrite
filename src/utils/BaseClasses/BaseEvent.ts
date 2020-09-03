@@ -1,6 +1,6 @@
 import { ClientEvents } from 'discord.js';
 import StarrClient from "./StarrClient";
-import EventDataResolvable from '../../types/EventDataResolvable';
+import EventDataResolvable from '../types/EventDataResolvable';
 
 export default abstract class BaseEvent {
     constructor(private eventData: EventDataResolvable) { }

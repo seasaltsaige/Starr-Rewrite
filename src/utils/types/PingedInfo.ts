@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import StarrClient from "../BaseClasses/StarrClient";
 
 export default interface PingedInfo {
     message: Message;

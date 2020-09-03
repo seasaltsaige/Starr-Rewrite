@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
-import Infraction from "../../types/InfractionInterface";
+import Infraction from "../../utils/types/InfractionInterface";
 import { Snowflake, GuildMember, Role } from "discord.js";
-import Mute from "../../types/MuteInterface";
+import Mute from "../../utils/types/MuteInterface";
 
 export default interface GuildDoc extends Document {
     /**

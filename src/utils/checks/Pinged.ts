@@ -1,4 +1,4 @@
-import PingedInfo from "../../types/PingedInfo";
+import PingedInfo from "../types/PingedInfo";
 import { Message } from "discord.js";
 import StarrClient from "../BaseClasses/StarrClient";
 

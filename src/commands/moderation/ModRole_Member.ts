@@ -3,7 +3,7 @@ import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, Role } from "discord.js";
 import Guild from "../../database/models/Guild";
 
-export default new class Mod extends BaseCommand {
+export default class Mod extends BaseCommand {
     constructor() {
         super({
             category: "moderation",

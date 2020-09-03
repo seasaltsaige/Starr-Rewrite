@@ -3,7 +3,7 @@ import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message } from "discord.js";
 import Guild from "../../database/models/Guild";
 
-export default new class Mute extends BaseCommand {
+export default class Mute extends BaseCommand {
     constructor() {
         super({
             name: "mute",
