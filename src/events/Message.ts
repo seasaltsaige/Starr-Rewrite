@@ -43,6 +43,8 @@ export default class Message extends BaseEvent {
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
             const guildOwner = new GuildOwner(message, message.guild, commandFile);
 
+            if (client.owners.some(id => id === message.author.id)) return commandFile.run(client, message, args);
+
             if (!guildOwner.check()) return message.channel.send(`${commandFile.name} is locked to guild owner only!`);
 
             // Check if the command is disabled and if the member is an owner or not

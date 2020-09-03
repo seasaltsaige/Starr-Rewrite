@@ -120,7 +120,10 @@ export default new class RestoreBackup extends BaseCommand {
                 for (const [__, channel] of message.guild.channels.cache) {
                     if (message.channel.id !== channel.id) {
                         message.guild.channels.cache.get(channel.id).delete();
-                        await sleep(500);
+                        await sleep(300);
+                    } else {
+                        //@ts-ignore
+                        message.channel.setName(`restoring-backup-${Backup.code}`);
                     }
                 }
 
@@ -131,15 +134,16 @@ export default new class RestoreBackup extends BaseCommand {
                     }
                 }
 
-                for (const [__, emoji] of message.guild.emojis.cache) {
-                    message.guild.emojis.cache.get(emoji.id).delete();
-                    await sleep(500);
-                }
+                // for (const [__, emoji] of message.guild.emojis.cache) {
+                //     message.guild.emojis.cache.get(emoji.id).delete();
+                //     await sleep(500);
+                // }
             }
 
 
             // Load in roles
             if (roleFlag) {
+                sendMe.edit("<a:loading3:709992480757776405> Restoring your server backup. Please wait... This can take several minutes... " + "Loading in roles...");
                 for (const role of Backup.data.roles) {
                     if (role.name !== "@everyone") {
 
@@ -196,8 +200,10 @@ export default new class RestoreBackup extends BaseCommand {
                         createdChannel.setParent(message.guild.channels.cache.find(chan => chan.name === channel.parent).id);
                     }
                     createdChannel.setPosition(channel.position);
+                    //@ts-ignore
+                    channel.tempId = createdChannel.id;
 
-                    await sleep(500);
+                    await sleep(100);
                 }
             }
 
@@ -206,7 +212,8 @@ export default new class RestoreBackup extends BaseCommand {
             if (messageFlag && channelsFlag) {
                 Backup.data.channels.forEach(async channel => {
                     if (channel.type === "text" || channel.type === "news") {
-                        const chtosend = message.guild.channels.cache.find(ch => ch.name === channel.name);
+                        //@ts-ignore
+                        const chtosend = message.guild.channels.cache.get(channel.tempId);
                         //@ts-ignore
                         const webhook = await chtosend.createWebhook("Captain Hook");
 
@@ -259,7 +266,12 @@ export default new class RestoreBackup extends BaseCommand {
                 if (Backup.settings.verificationLevel) message.guild.setVerificationLevel(Backup.settings.verificationLevel); 
             }
 
-            return sendMe.edit("Successfully restored your server backup!");
+            //@ts-ignore
+            await message.channel.setName("restore-complete");
+
+            sendMe.edit("Successfully restored your server backup!");
+
+            return message.reply("restore successful! You can now delete this channel");
         });
     }
 }

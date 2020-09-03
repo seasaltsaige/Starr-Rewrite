@@ -7,7 +7,6 @@ import("colors");
 export default new class CommandHandler {
     load(mainPath: string, subPaths: Array<string>, client: StarrClient): void {
 
-
         for (const path of subPaths) {
             readdir(`${mainPath}/${path}`, async (err, files) => { 
                 if (err) throw err;
@@ -31,8 +30,5 @@ export default new class CommandHandler {
                 console.log(`Successfully loaded ` + `${files.length} `.red + "command(s) in the " + path + " category");
             });
         } 
-
-       
-
     }
 }
