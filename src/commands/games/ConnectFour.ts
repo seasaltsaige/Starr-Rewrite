@@ -197,7 +197,7 @@ export default class ConnectFour extends BaseCommand {
                         }
                     }
 
-                    reaction.users.remove(user.id);
+                    reaction.users.remove(user.id).catch(console.log);
                     player = (player + 1) % players.length;
 
                     const edit = new MessageEmbed()
