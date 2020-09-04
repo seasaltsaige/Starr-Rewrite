@@ -116,87 +116,55 @@ export default class ConnectFour extends BaseCommand {
                     switch (reaction.emoji.name) {
                         case "1️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][0] === "⚪") {
-                                    space.push({ i, j: 0 });
-                                }
+                                if (board[i][0] === "⚪") space.push({ i, j: 0 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
+
                         break;
                         case "2️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][1] === "⚪") {
-                                    space.push({ i, j: 1 });
-                                }
+                                if (board[i][1] === "⚪") space.push({ i, j: 1 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
+
                         break;
                         case "3️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][2] === "⚪") {
-                                    space.push({ i, j: 2 });
-                                }
+                                if (board[i][2] === "⚪") space.push({ i, j: 2 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
                         break;
                         case "4️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][3] === "⚪") {
-                                    space.push({ i, j: 3 });
-                                }
+                                if (board[i][3] === "⚪") space.push({ i, j: 3 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
                         break;
                         case "5️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][4] === "⚪") {
-                                    space.push({ i, j: 4 });
-                                }
+                                if (board[i][4] === "⚪") space.push({ i, j: 4 });
+
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
                         break;
                         case "6️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][5] === "⚪") {
-                                    space.push({ i, j: 5 });
-                                }
+                                if (board[i][5] === "⚪") space.push({ i, j: 5 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
                         break;
                         case "7️⃣":
                             for (let i = 5; i > -1; i--) {
-                                if (board[i][6] === "⚪") {
-                                    space.push({ i, j: 6 });
-                                }
+                                if (board[i][6] === "⚪") space.push({ i, j: 6 });
                             }
-                            if (space.length > 0) {
-                                board[space[0].i][space[0].j] = players[player].color;
-                            } else {
-                                return message.reply("that column is already filled, please try a different one.");
-                            }
+                            if (space.length > 0) board[space[0].i][space[0].j] = players[player].color;
+                            else return message.reply("that column is already filled, please try a different one.");
                         break;
                     }
 
