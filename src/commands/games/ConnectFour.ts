@@ -1,7 +1,6 @@
 import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
 import StarrClient from "../../utils/BaseClasses/StarrClient";
 import { Message, MessageReaction, User, MessageEmbed } from "discord.js";
-import { jpegVersion } from "canvas";
 
 export default class ConnectFour extends BaseCommand {
     constructor() {
