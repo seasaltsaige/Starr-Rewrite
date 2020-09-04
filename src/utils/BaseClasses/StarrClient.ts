@@ -11,6 +11,9 @@ export default class StarrClient extends Client {
     snipes: Map<string, SnipeData>;
     baseOptions: ClientOptions;
     cachedPrefixes: Map<string, string>;
+    colors: {
+        noColor: "#2F3136",
+    }
 
     constructor(StarrClientInfo: StarrClientInfo) {
         super();
@@ -21,6 +24,9 @@ export default class StarrClient extends Client {
         this.snipes = new Map();
         this.baseOptions = StarrClientInfo.baseOptions;
         this.cachedPrefixes = new Map();
+        this.colors = {
+            noColor: "#2F3136",
+        }
     };
     getToken(): string | undefined {
         return process.env.BOT_TOKEN;

@@ -56,55 +56,32 @@ export default class ViewWarns extends BaseCommand {
             });
 
             collector.on("collect", (reaction) => {
-                let newEmbed = undefined;
+                
                 switch (reaction.emoji.name) {
                     case "⏪":
-
-                    page = 0;
-
-                    newEmbed = new MessageEmbed()
-                        .setAuthor(`${member.user.tag}'s infractions`, member.user.displayAvatarURL({ format: "png" }));
-                        newEmbed.addField(`Case #${infractions[page].caseId} - Infraction Type: ${infractions[page].infractionType}`, `${infractions[page].description}`);
-                        newEmbed.setFooter(`Page: ${page + 1}/${infractions.length} - Issued `)
-                        .setTimestamp(infractions[page].date);
-                    return msg.edit(newEmbed);
-
+                        page = 0;
+                    break;
                     case "◀️":
                         if (page > 0) {
                             page--;
-
-                            newEmbed = new MessageEmbed()
-                                .setAuthor(`${member.user.tag}'s infractions`, member.user.displayAvatarURL({ format: "png" }));
-                                newEmbed.addField(`Case #${infractions[page].caseId} - Infraction Type: ${infractions[page].infractionType}`, `${infractions[page].description}`);
-                                newEmbed.setFooter(`Page: ${page + 1}/${infractions.length} - Issued `)
-                                .setTimestamp(infractions[page].date);
-                            return msg.edit(newEmbed);
                         }
                     break;
                     case "▶️":
                         if (page < infractions.length - 1) {
                             page++;
-
-                            newEmbed = new MessageEmbed()
-                                .setAuthor(`${member.user.tag}'s infractions`, member.user.displayAvatarURL({ format: "png" }));
-                                newEmbed.addField(`Case #${infractions[page].caseId} - Infraction Type: ${infractions[page].infractionType}`, `${infractions[page].description}`);
-                                newEmbed.setFooter(`Page: ${page + 1}/${infractions.length} - Issued `)
-                                .setTimestamp(infractions[page].date);
-                            return msg.edit(newEmbed);
                         }
                     break;
                     case "⏩":
-
-                    page = infractions.length - 1;
-
-                    newEmbed = new MessageEmbed()
-                        .setAuthor(`${member.user.tag}'s infractions`, member.user.displayAvatarURL({ format: "png" }));
-                        newEmbed.addField(`Case #${infractions[page].caseId} - Infraction Type: ${infractions[page].infractionType}`, `${infractions[page].description}`);
-                        newEmbed.setFooter(`Page: ${page + 1}/${infractions.length} - Issued `)
-                        .setTimestamp(infractions[page].date);
-                    return msg.edit(newEmbed);
-
+                        page = infractions.length - 1;
+                    break;
                 }
+                const newEmbed = new MessageEmbed()
+                    .setAuthor(`${member.user.tag}'s infractions`, member.user.displayAvatarURL({ format: "png" }));
+                    newEmbed.addField(`Case #${infractions[page].caseId} - Infraction Type: ${infractions[page].infractionType}`, `${infractions[page].description}`);
+                    newEmbed.setFooter(`Page: ${page + 1}/${infractions.length} - Issued `)
+                    .setColor(client.colors.noColor)
+                    .setTimestamp(infractions[page].date);
+                msg.edit(newEmbed);
             });
 
             collector.on("end", (_, __) => {

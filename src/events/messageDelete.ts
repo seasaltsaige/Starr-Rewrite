@@ -10,6 +10,8 @@ export default class MessageDelete extends BaseEvent {
         })
     }
     public async run(client: StarrClient, message: Message) {
+        if (message.author.bot) return;
+        
         const toSet = JSON.stringify({
             guild: message.guild.id,
             channel: message.channel.id,

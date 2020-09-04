@@ -17,6 +17,7 @@ export default class Message extends BaseEvent {
     public async run(client: StarrClient, message: message) {
         if (!message.guild) return;
         if (message.author.bot) return;
+        
         const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
 
         // Check if the bot was pinged
