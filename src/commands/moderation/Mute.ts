@@ -51,7 +51,7 @@ export default class Mute extends BaseCommand {
         const caseId = guild.infractionNumber.toString().padStart(5, "0");
 
         let reason = args.slice(1).join(" ");
-        if (!reason) reason = `\`No Reason Provided\` - Use \`${await client.getGuildPrefix(message.guild)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
+        if (!reason) reason = `\`No Reason Provided\` - Use \`${client.cachedPrefixes.get(message.guild.id)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
 
         guild.infractions.push({
             caseId,

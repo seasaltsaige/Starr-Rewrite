@@ -21,7 +21,7 @@ export default class Kick extends BaseCommand {
         if (!foundGuild) foundGuild = new Guild({ id: message.guild.id });
 
         let reason = args.slice(1).join(" ");
-        if (!reason) reason = ``
+        if (!reason) reason = `\`No Reason Provided\` - Use \`${client.cachedPrefixes.get(message.guild.id)}editinfraction $ <New Reason>\` to set a new reason.`;
 
     }
 }

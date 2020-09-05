@@ -24,13 +24,16 @@ export default class Prefix extends BaseCommand {
 
         if (args.length < 1) return message.channel.send("Please provide a prefix to set to!");
 
+        if (foundGuild.prefix === args.join(" ")) return message.channel.send("Please set the prefix to something *new*...");
+
         foundGuild.prefix = args.join(" ");
+        
 
         try {
             await foundGuild.save();
             client.cachedPrefixes.set(message.guild.id, args.join(" "));
         } catch (err) {
-            return message.channel.send("Something went wrong");
+            return message.channel.send("Something went wrong while setting the new prefix!");
         }
 
         return message.channel.send(`Successfully set ${message.guild.name}'s prefix to ${args.join(" ")}`);

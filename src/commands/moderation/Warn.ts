@@ -30,7 +30,7 @@ export default class Warn extends BaseCommand {
 
         let reason = args.slice(1, args.length).join(" ");
 
-        if (!reason) reason = `\`No Reason Provided\` - Use \`${await client.getGuildPrefix(message.guild)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
+        if (!reason) reason = `\`No Reason Provided\` - Use \`${client.cachedPrefixes.get(message.guild.id)}editinfraction ${caseId} <New Reason>\` to set a new reason.`;
 
         foundGuild.infractions.push({
             user: warnedMember.id,
