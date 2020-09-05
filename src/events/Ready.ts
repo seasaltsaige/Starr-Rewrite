@@ -16,11 +16,11 @@ export default class Ready extends BaseEvent {
         const Prefix = new CachePrefixes(client);
 
         // Cache all prefixes that may be in the database for quicker fetch times
-        for (const guild of client.guilds.cache) {
-            const gId = guild[1].id;
+        for (const [_, guild] of client.guilds.cache) {
+            const gId = guild.id;
             const foundGuild = await Guild.findOne({ id: gId });
             if (foundGuild && foundGuild.prefix) {
-                Prefix.cache(guild[1], foundGuild);
+                Prefix.cache(guild, foundGuild);
             }
         }
         console.log(`${client.user.tag} has logged into ${client.guilds.cache.size} servers with ${client.commands.size} commands.`);
