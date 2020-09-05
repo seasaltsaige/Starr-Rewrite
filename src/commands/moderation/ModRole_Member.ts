@@ -14,7 +14,7 @@ export default class Mod extends BaseCommand {
         });
     }
 
-    async run (client: StarrClient, message: Message, args: string[]) {
+    public async run (client: StarrClient, message: Message, args: string[]) {
         let guild = await Guild.findOne({ id: message.guild.id });
 
         if (!guild) guild = new Guild({ id: message.guild.id });

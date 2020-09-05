@@ -14,7 +14,7 @@ export default class Snipe extends BaseCommand {
             enabled: true,
         });
     }
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
 
         const channel = message.mentions.channels.first() || message.channel;
 

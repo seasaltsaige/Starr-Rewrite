@@ -13,7 +13,7 @@ export default class ConnectFour extends BaseCommand {
             aliases: ["c4", "cfour", "connect4"],
         });
     }
-    async run (client: StarrClient, message: Message, args: string[]) {
+    public async run (client: StarrClient, message: Message, args: string[]) {
         const opponent = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         const challenger = message.member;
         if (!opponent || opponent.id === message.author.id) return message.channel.send("Please mention someone that you would like to challenge!");

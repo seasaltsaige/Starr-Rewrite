@@ -13,7 +13,7 @@ export default class Kick extends BaseCommand {
             usage: "?kick <user> <reason>",
         });
     }
-    async run (client: StarrClient, message: Message, args: string[]) {
+    public async run (client: StarrClient, message: Message, args: string[]) {
         const kickMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (!kickMember) return message.channel.send("Please mention a member to kick");
 

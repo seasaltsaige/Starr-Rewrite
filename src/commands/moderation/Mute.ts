@@ -13,7 +13,7 @@ export default class Mute extends BaseCommand {
             usage: "?mute <user> <reason>",
         });
     }
-    async run (client: StarrClient, message: Message, args: string[]) {
+    public async run (client: StarrClient, message: Message, args: string[]) {
 
         let guild = await Guild.findOne({ id: message.guild.id });
 

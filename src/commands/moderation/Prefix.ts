@@ -15,7 +15,7 @@ export default class Prefix extends BaseCommand {
             enabled: true,
         });
     }
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
         let foundGuild = await Guild.findOne({ id: message.guild.id });
 
         if (!foundGuild) foundGuild = new Guild({

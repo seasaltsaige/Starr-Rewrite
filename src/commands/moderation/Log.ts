@@ -16,7 +16,7 @@ export default class Log extends BaseCommand {
         });
     }
 
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
 
         let foundGuild = await Guild.findOne({ id: message.guild.id });
 

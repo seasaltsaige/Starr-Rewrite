@@ -15,7 +15,7 @@ export default class EditWarn extends BaseCommand {
             description: "Edit a infraction reason based of of infraction ID",
         });
     }
-    async run(client: StarrClient, message: Message, args: string[]) {
+    public async run(client: StarrClient, message: Message, args: string[]) {
 
         const foundGuild = await Guild.findOne({ id: message.guild.id });
 

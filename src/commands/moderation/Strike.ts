@@ -13,7 +13,7 @@ export default class Strike extends BaseCommand {
             usage: "?strike <user> <reason>",
         });
     }
-    async run(client: StarrClient, message: Message, args: string[]) {
+    public async run(client: StarrClient, message: Message, args: string[]) {
         const strikenMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
         if (!strikenMember) return message.channel.send("Please mention someone to warn!");

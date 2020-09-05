@@ -13,7 +13,7 @@ export default class AutoMod extends BaseCommand {
             aliases: ["autom"],
         });
     }
-    async run (client: StarrClient, message: Message, args: string[]) {
+    public async run (client: StarrClient, message: Message, args: string[]) {
 
     }
 }

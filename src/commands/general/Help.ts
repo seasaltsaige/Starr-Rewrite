@@ -15,7 +15,7 @@ export default class Help extends BaseCommand {
             
         });
     }
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
 
         
     }

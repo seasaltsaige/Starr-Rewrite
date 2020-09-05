@@ -15,7 +15,7 @@ export default class Ping extends BaseCommand {
         });
     }
 
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
         message.channel.send(client.ws.ping + "ms API Ping");
     }
 }

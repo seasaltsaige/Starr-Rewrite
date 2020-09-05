@@ -15,7 +15,7 @@ export default class Warn extends BaseCommand {
             description: "Warn users",
         });
     }
-    async run(client: StarrClient, message: Message, args: Array<string>) {
+    public async run(client: StarrClient, message: Message, args: Array<string>) {
         const warnedMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
         if (!warnedMember) return message.channel.send("Please mention someone to warn!");
