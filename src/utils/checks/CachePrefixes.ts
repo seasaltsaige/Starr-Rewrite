@@ -5,7 +5,7 @@ import { Guild } from "discord.js";
 export default class CachePrefixes {
     constructor(public client: StarrClient) { }
 
-    cache(guild: Guild, guildDoc: GuildDoc) {
+    public cache(guild: Guild, guildDoc: GuildDoc) {
         this.client.cachedPrefixes.set(guild.id, guildDoc.prefix);
     }
 }

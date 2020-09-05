@@ -1,13 +1,7 @@
 import { Message, GuildMember, Role } from "discord.js";
 
 export default class IgnoreBypass {
-    message: Message;
-    ignored: Array<GuildMember | Role>;
-    constructor(message: Message, ignored: Array<GuildMember | Role>) {
-        this.message = message;
-        this.ignored = ignored;
-    }
-
+    constructor(public message: Message, public ignored: Array<GuildMember | Role>) { }
     public check() {
         if (!this.ignored.includes(this.message.member)) {
             for (const [_, _role] of this.message.member.roles.cache) {
@@ -15,5 +9,4 @@ export default class IgnoreBypass {
             };
         } else return true;
     }
-
 }

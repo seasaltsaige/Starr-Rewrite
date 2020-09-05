@@ -18,7 +18,7 @@ export default class FakeQuote extends BaseCommand {
     }
     async run (client: StarrClient, message: Message, args: string[]) {
 
-        if (!args.includes("|")) return message.channel.send(`Please ensure you use the correct command syntax! EX: ${await client.getGuildPrefix(message.guild)}fakequote This command is cool! | ${message.author.id}`);
+        if (!args.includes("|")) return message.channel.send(`Please ensure you use the correct command syntax! EX: ${client.cachedPrefixes.get(message.guild.id)}fakequote This command is cool! | ${message.author.id}`);
 
         const Text = args.join(" ").split("|");
 

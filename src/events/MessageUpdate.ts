@@ -9,7 +9,7 @@ export default class MessageUpdate extends BaseEvent {
             name: "messageUpdate",
         });
     }
-    async run (client: StarrClient, oldMessage: Message, newMessage: Message) {
+    public async run (client: StarrClient, oldMessage: Message, newMessage: Message) {
         if (oldMessage.author.bot) return;
         if (oldMessage.mentions.members.map(m => m).join(" ") !== newMessage.mentions.members.map(m => m).join(" ")) {
             const ghostPing = new GhostPing(oldMessage);

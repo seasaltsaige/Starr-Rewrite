@@ -3,12 +3,10 @@ import IgnoreBypass from "./IgnoreBypass";
 import Guild from "../../database/models/Guild";
 
 export default class GhostPing {
-    message: Message;
-    constructor(msg: Message ) {
-        this.message = msg;
-    };
 
-    async check() {
+    constructor(public message: Message ) { };
+
+    public async check() {
         if (this.message.mentions.members && this.message.mentions.members.size > 0 ) {
 
             const guild = await Guild.findOne({ id: this.message.guild.id });

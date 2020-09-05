@@ -40,7 +40,7 @@ export default class Message extends BaseEvent {
 
         if (commandFile) {
             // Define all our permission checks
-            const permissionCheck = new PermissionGaurd({ member: message.member });
+            const permissionCheck = new PermissionGaurd(message.member);
             const ownerCheck = new OwnerGuard({ owners: client.owners, member: message.member });
             const guildOwner = new GuildOwner(message, message.guild, commandFile);
 

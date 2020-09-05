@@ -14,7 +14,7 @@ export abstract class BaseCommand {
     ownerOnly: boolean;
     g_owner_only?: boolean;
 
-    constructor(BaseCommandInfo: BaseCommandInfo) {
+    constructor(public BaseCommandInfo: BaseCommandInfo) {
         this.name = BaseCommandInfo.name;
         this.usage = BaseCommandInfo.usage;
         this.aliases = BaseCommandInfo.aliases;

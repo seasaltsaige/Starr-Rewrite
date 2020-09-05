@@ -19,7 +19,7 @@ export default class StarrClient extends Client {
         noColor: "#2F3136",
     }
 
-    constructor(StarrClientInfo: StarrClientInfo) {
+    constructor(public StarrClientInfo: StarrClientInfo) {
         super();
         this.defaultPrefix = StarrClientInfo.defaultPrefix;
         this.commands = new Map();
@@ -37,18 +37,18 @@ export default class StarrClient extends Client {
         return process.env.BOT_TOKEN;
     }
 
-    async getGuildPrefix(guild: Guild): Promise<string> {
+    public async getDBGuildPrefix(guild: Guild): Promise<string> {
         const foundGuild = await GuildDoc.findOne({ id: guild.id });
         if (!foundGuild) return null;
         const guildPrefix = foundGuild.prefix;
         return guildPrefix;
     }
-    getSnipe(client: StarrClient, guild: Guild, channel: Channel): SnipeData {
+    public getSnipe(client: StarrClient, guild: Guild, channel: Channel): SnipeData {
         const toget = JSON.stringify({ guild: guild.id, channel: channel.id });
         const snipedata = client.snipes.get(toget);
         return snipedata;
     }
-    start(): void {
+    public start(): void {
         config(); // Execute the config to bind env to the process
         Constants.DefaultOptions.ws.properties.$browser = "Discord iOS";
         this.login(this.getToken());
