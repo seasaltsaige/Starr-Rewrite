@@ -105,6 +105,22 @@ export default class BattleShip extends BaseCommand {
                     } else if (players[0].ready && players[1].ready) {
                         if (players[player].member.id === msg.author.id) {
                             if (cmd === "attack") {
+                                const cords = argument[0];
+                                if (!cords) return msg.channel.send("Please enter cords for your attack. Ex: `D5`");
+                                const directionRegex = /[a-z]([1-9]|10)/;
+                                if (!cords.match(directionRegex)) return msg.channel.send("Please enter valid cords for your attack. Ex: `D5`");
+
+                                const returnData = this.attack(players[player].playerHitBoard, players[(player + 1) % players.length].playerShipBoard, { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords });
+                                if (returnData) {
+                                    //@ts-ignore
+                                    client.channels.cache.get(players[player].gameChannel).messages.cache.get(players[player].gameMessages.hits).edit(`Attack Board:\n${this.displayHitBoard(returnData.attackBoard)}`);
+                                    //@ts-ignore
+                                    client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayShipBoard(returnData.shipBoard)}`);
+                                }
+                                console.log(player, "after attack");
+
+
+                                player = (player + 1) % players.length;
 
                             }
                         } else {
@@ -119,6 +135,24 @@ export default class BattleShip extends BaseCommand {
 
 
         } else return accept.edit("Looks like they declined.");
+    }
+
+    private attack(attackBoard: { data: string, cords: { letter: string, number: number, cord: string } }[][], shipBoard: { data: string, cords: { letter: string, number: number, cord: string } }[][], spot: { letter: string, number: number, cord: string }) {
+        for (let i = 0; i < shipBoard.length; i++) {
+            if (shipBoard[i].find(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())) {
+                if (shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data === "0") {
+                    shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "3";
+                    attackBoard[i][attackBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "1";
+                } else if (shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data === "1") {
+                    shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "2";
+                    attackBoard[i][attackBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "2";
+                } else return false;
+            }
+        }
+        return {
+            shipBoard,
+            attackBoard,
+        };
     }
 
     private checkBoatPos(board: { data: string, cords: { letter: string, number: number, cord: string } }[][], boat: { name: string, length: number }, cords: { letter: string, number: number, cord: string }, dirrection: string) {
