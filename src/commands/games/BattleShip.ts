@@ -71,7 +71,7 @@ export default class BattleShip extends BaseCommand {
 
                             const cords = argument[1];
                             if (!cords) return msg.channel.send("Please enter cords for your ship. Ex: `D5`");
-                            const directionRegex = /[a-z]([1-9]|10)/;
+                            const directionRegex = /[a-z]([1-9]|10)/i;
                             if (!cords.match(directionRegex)) return msg.channel.send("Please enter valid cords for your ship. Ex: `D5`");
 
                             const dirrection = argument[2];
