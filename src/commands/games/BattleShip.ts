@@ -46,8 +46,8 @@ export default class BattleShip extends BaseCommand {
             for (const play of players) {
 
                 const startMsg = await play.member.send(`Here is your starting Attack and Ship board! To add your boat pieces to the Ship board, please use the following command format. \`${prefix}add <ship> <Board Cords> <dirrection>\`. An example of this would be, \`${prefix}add destroyer D5 down\`\n\nAvailable Ships:\ncarrier (5)\nbattleship (4)\ndestroyer (3)\nsubmarine (3)\npatrolboat (2)`);
-                const hitBoard = await play.member.send(`Attack Board:\n${this.displayHitBoard(play.playerHitBoard)}`);
-                const dmBoard = await play.member.send(`Ship Board:\n${this.displayShipBoard(play.playerShipBoard)}`);
+                const hitBoard = await play.member.send(`Attack Board:\n${this.displayBoard(play.playerHitBoard, "hit")}`);
+                const dmBoard = await play.member.send(`Ship Board:\n${this.displayBoard(play.playerShipBoard, "ship")}`);
 
                 play.gameMessages.start = startMsg.id;
                 play.gameMessages.hits = hitBoard.id;
@@ -92,7 +92,7 @@ export default class BattleShip extends BaseCommand {
                             const currPlayer = players.find(plr => plr.member.id === msg.author.id);
                             currPlayer.playerShipBoard = reRender.board
                             //@ts-ignore 
-                            client.channels.cache.get(currPlayer.gameChannel).messages.cache.get(currPlayer.gameMessages.boats).edit(`Ship Board:\n${this.displayShipBoard(reRender.board)}`);
+                            client.channels.cache.get(currPlayer.gameChannel).messages.cache.get(currPlayer.gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(reRender.board, "ship")}`);
                             let oldBoat = players.find(p => p.member.id === msg.author.id).placedBoats.find(b => b.name.toLowerCase() === reRender.boat.name.toLowerCase());
                             oldBoat = reRender.boat;
                             // @ts-ignore
@@ -122,20 +122,20 @@ export default class BattleShip extends BaseCommand {
                                 if (!returnData) return msg.channel.send("You can't attack there, please try somewhere else!").then(m => m.delete({ timeout: 15000 }));
 
                                 //@ts-ignore
-                                client.channels.cache.get(players[player].gameChannel).messages.cache.get(players[player].gameMessages.hits).edit(`Attack Board:\n${this.displayHitBoard(returnData.attackBoard)}`);
+                                client.channels.cache.get(players[player].gameChannel).messages.cache.get(players[player].gameMessages.hits).edit(`Attack Board:\n${this.displayBoard(returnData.attackBoard, "hit")}`);
                                 players[player].playerHitBoard = returnData.attackBoard;
                                 //@ts-ignore
-                                client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayShipBoard(returnData.shipBoard)}`);
+                                client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(returnData.shipBoard, "ship")}`);
                                 players[(player + 1) % 2].playerShipBoard = returnData.shipBoard;
 
-                                const shipToHit = players[(player + 1) % players.length].placedBoats.find(s => s.name.toLowerCase() === returnData.data.shipName.toLowerCase());
+                                const shipToHit = players[(player + 1) % players.length].placedBoats.find(s => s.name.toLowerCase() === returnData.data.toLowerCase());
                                 if (shipToHit) {
                                     shipToHit.hits++;
                                     if (shipToHit.hits === shipToHit.length) {
                                         shipToHit.sunk = true;
                                         players[player].member.send(`You sunk ${players[(player + 1) % players.length].member.user.tag}'s ${shipToHit.name}!`);
-                                        players[(player + 1) % players.length].member.send(`Your ${returnData.data.shipName} was sunk!`);
-                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.data.shipName} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
+                                        players[(player + 1) % players.length].member.send(`Your ${returnData.data} was sunk!`);
+                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.data} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
                                     }
                                 }
 
@@ -174,27 +174,26 @@ export default class BattleShip extends BaseCommand {
     }
 
     private attack(attackBoard: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], shipBoard: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], spot: { letter: string, number: number, cord: string }) {
-        let d: { shipName: string } = {
-            shipName: ""
-        };
+        let shipName: string = "";
         for (let i = 0; i < shipBoard.length; i++) {
+            const index = shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase());
             if (shipBoard[i].find(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())) {
                 // Missed attack
-                if (shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data === "0") {
-                    shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "3";
-                    attackBoard[i][attackBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "1";
+                if (shipBoard[i][index].data === "0") {
+                    shipBoard[i][index].data = "3";
+                    attackBoard[i][index].data = "1";
                 // Successful attack
-                } else if (shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data === "1") {
-                    shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "2";
-                    attackBoard[i][attackBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].data = "2";
-                    d.shipName = shipBoard[i][shipBoard[i].findIndex(data => data.cords.cord.toLowerCase() === spot.cord.toLowerCase())].ship;
+                } else if (shipBoard[i][index].data === "1") {
+                    shipBoard[i][index].data = "2";
+                    attackBoard[i][index].data = "2";
+                    shipName = shipBoard[i][index].ship;
                 } else return false;
             }
         }
         return {
             shipBoard,
             attackBoard,
-            data: d,
+            data: shipName,
         };
     }
 
@@ -321,34 +320,22 @@ export default class BattleShip extends BaseCommand {
         return doneData;
     }
 
-    private displayHitBoard(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][]) {
+    private displayBoard(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], type: "hit" | "ship") {
         let returnData = "";
         returnData = returnData.concat("⬛1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟\n");
         for (let i = 0; i < board.length; i++) {
             let temp = "";
-
             const leftEmoji = [ { i: 0, emoji: ":regional_indicator_a:" }, { i: 1, emoji: ":regional_indicator_b:" }, { i: 2, emoji: ":regional_indicator_c:" }, { i: 3, emoji: ":regional_indicator_d:" }, { i: 4, emoji: ":regional_indicator_e:" }, { i: 5, emoji: ":regional_indicator_f:" }, { i: 6, emoji: ":regional_indicator_g:" }, { i: 7, emoji: ":regional_indicator_h:" }, { i: 8, emoji: ":regional_indicator_i:" }, { i: 9, emoji: ":regional_indicator_j:" } ]
-
-            for (let j = 0; j < board[i].length; j++) {
-                // "0" is an empty space, "1" is a missed shot, "2" is a hit shot
-                temp += `${board[i][j].data === "0" ? "◻️" : board[i][j].data === "1" ? "⚪" : "🔴" }`;
-            }
-            returnData += leftEmoji.find(object => object.i === i).emoji + temp + "\n";
-        }
-        return returnData;
-    }
-
-    private displayShipBoard(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][]) {
-        let returnData = "";
-        returnData = returnData.concat("⬛1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟\n");
-
-        const leftEmoji = [ { i: 0, emoji: ":regional_indicator_a:" }, { i: 1, emoji: ":regional_indicator_b:" }, { i: 2, emoji: ":regional_indicator_c:" }, { i: 3, emoji: ":regional_indicator_d:" }, { i: 4, emoji: ":regional_indicator_e:" }, { i: 5, emoji: ":regional_indicator_f:" }, { i: 6, emoji: ":regional_indicator_g:" }, { i: 7, emoji: ":regional_indicator_h:" }, { i: 8, emoji: ":regional_indicator_i:" }, { i: 9, emoji: ":regional_indicator_j:" } ]
-
-        for (let i = 0; i < board.length; i++) {
-            let temp = "";
-            for (let j = 0; j < board[i].length; j++) {
-                // "0" is an empty space, "1" is a unhit ship piece, "2" is a hit ship piece, "3" is a missed shot from opponent
-                temp += `${board[i][j].data === "0" ? "◻️" : board[i][j].data === "1" ? "🟩" : board[i][j].data === "2" ? "🟥" : "⚪" }`;
+            if (type === "hit") {
+                for (let j = 0; j < board[i].length; j++) {
+                    // "0" is an empty space, "1" is a missed shot, "2" is a hit shot
+                    temp += `${board[i][j].data === "0" ? "◻️" : board[i][j].data === "1" ? "⚪" : "🔴" }`;
+                }
+            } else {
+                for (let j = 0; j < board[i].length; j++) {
+                    // "0" is an empty space, "1" is a unhit ship piece, "2" is a hit ship piece, "3" is a missed shot from opponent
+                    temp += `${board[i][j].data === "0" ? "◻️" : board[i][j].data === "1" ? "🟩" : board[i][j].data === "2" ? "🟥" : "⚪" }`;
+                }
             }
             returnData += leftEmoji.find(object => object.i === i).emoji + temp + "\n";
         }
