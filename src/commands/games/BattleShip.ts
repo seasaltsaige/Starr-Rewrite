@@ -1,7 +1,8 @@
 import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
 import StarrClient from "../../utils/BaseClasses/StarrClient";
-import { Message, MessageReaction, User, GuildMember } from "discord.js";
+import { Message, MessageReaction, User, GuildMember, DMChannel } from "discord.js";
 import battleShipPlayer from "../../utils/types/battleShipPlayer";
+import { type } from "os";
 
 export default class BattleShip extends BaseCommand {
     constructor() {
@@ -16,15 +17,15 @@ export default class BattleShip extends BaseCommand {
     }
     public async run(client: StarrClient, message: Message, args: string[]) {
 
-        const prefix = client.cachedPrefixes.get(message.guild.id);
+        const prefix = client.cachedPrefixes.get(message.guild.id); // Get the current servers prefix to use in DM's
 
-        const challenger = message.member;
-        const opponent = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        const challenger = message.member; // Define the challenger
+        const opponent = message.mentions.members.first() || message.guild.members.cache.get(args[0]); // Get and define the opponent
 
-        if (!opponent) return message.channel.send("Please mention a member to battle!");
-        if (challenger.id === opponent.id) return message.channel.send("Please challenge someone other than yourself!");
+        if (!opponent) return message.channel.send("Please mention a member to battle!"); // If there is no opponent, require them to define one
+        if (challenger.id === opponent.id) return message.channel.send("Please challenge someone other than yourself!"); // Check for prevention against challenging yourself
         
-        const accept = await message.channel.send(`Hey ${opponent}, ${challenger} just challenged you to a game of Battle Ship. Do you accept?`);
+        const accept = await message.channel.send(`Hey ${opponent}, ${challenger} just challenged you to a game of Battle Ship. Do you accept?`); 
         await Promise.all([accept.react("✅"), accept.react("❌")]);
 
         const acceptFilter = (reaction: MessageReaction, user: User) => user.id === opponent.id && ["✅", "❌"].includes(reaction.emoji.name);
@@ -37,9 +38,6 @@ export default class BattleShip extends BaseCommand {
                 { collector: null, member: challenger, playerHitBoard: this.genBoard(10, 10), playerShipBoard: this.genBoard(10, 10), gameChannel: "", placedBoats: [], gameMessages: { start: "", hits: "", boats: "" }, ready: false },
                 { collector: null, member: opponent , playerHitBoard: this.genBoard(10, 10), playerShipBoard: this.genBoard(10, 10), gameChannel: "", placedBoats: [], gameMessages: { start: "", hits: "", boats: "" }, ready: false },
             ];
-
-            
-            
 
             let player = 0;
 
@@ -69,6 +67,10 @@ export default class BattleShip extends BaseCommand {
 
                     if (!players.find(plr => plr.member.id === msg.author.id).ready) {
                         if (cmd === "add") {
+
+                            const currPlayer = players.find(plr => plr.member.id === msg.author.id);
+                            const gameChannelObject = <DMChannel>client.channels.cache.get(currPlayer.gameChannel);
+
                             const boatType = argument[0];
                             if (!boatType) return msg.channel.send("Please provide a boat to place.");
                             if (!validBoats.some(value => value.name === boatType.toLowerCase())) return msg.channel.send("Please provide a valid boat type to place.");
@@ -83,20 +85,20 @@ export default class BattleShip extends BaseCommand {
                             if (!dirrection) return msg.channel.send("Please provide a direction to position your boat!");
                             if (!validDirrections.some(value => value === dirrection.toLowerCase())) return msg.channel.send(`Please provide a valid dirrection. Valid Choices: ${validDirrections.join(", ")}`).then(m => m.delete({ timeout: 15000 }));
 
-                            const checked = this.checkBoatPos(play.playerShipBoard, validBoats.find(data => data.name === boatType.toLowerCase()), { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords }, dirrection);
+                            const checked = this.checkBoatPos(play.playerShipBoard, validBoats.find(data => data.name === boatType.toLowerCase()), { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords }, dirrection, "check");
                             if (!checked) return msg.channel.send(`You can't put the ${boatType} at ${cords} facing ${dirrection}`).then(m => m.delete({ timeout: 15000 }));
 
-                            players.find(plyr => plyr.member.id === msg.author.id).placedBoats.push(validBoats.find(data => data.name === boatType.toLowerCase()));
+                            currPlayer.placedBoats.push(validBoats.find(data => data.name === boatType.toLowerCase()));
 
-                            const reRender = this.renderBoat(players.find(plyr => plyr.member.id === msg.author.id).playerShipBoard, validBoats.find(boat => boat.name === boatType.toLowerCase()), { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords }, dirrection);
-                            const currPlayer = players.find(plr => plr.member.id === msg.author.id);
+                            const reRender = this.checkBoatPos(players.find(plyr => plyr.member.id === msg.author.id).playerShipBoard, validBoats.find(boat => boat.name === boatType.toLowerCase()), { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords }, dirrection, "render");
+
                             currPlayer.playerShipBoard = reRender.board
-                            //@ts-ignore 
-                            client.channels.cache.get(currPlayer.gameChannel).messages.cache.get(currPlayer.gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(reRender.board, "ship")}`);
+                            gameChannelObject.messages.cache.get(currPlayer.gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(reRender.board, "ship")}`);
+
                             let oldBoat = players.find(p => p.member.id === msg.author.id).placedBoats.find(b => b.name.toLowerCase() === reRender.boat.name.toLowerCase());
                             oldBoat = reRender.boat;
-                            // @ts-ignore
-                            const editMe = client.channels.cache.get(currPlayer.gameChannel).messages.cache.get(currPlayer.gameMessages.start);
+
+                            const editMe = gameChannelObject.messages.cache.get(currPlayer.gameMessages.start);
                             editMe.edit(editMe.content.replace(boatType.toLowerCase(), `~~${boatType}~~`));
 
                             if (currPlayer.placedBoats.length === 5) {
@@ -128,14 +130,14 @@ export default class BattleShip extends BaseCommand {
                                 client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(returnData.shipBoard, "ship")}`);
                                 players[(player + 1) % 2].playerShipBoard = returnData.shipBoard;
 
-                                const shipToHit = players[(player + 1) % players.length].placedBoats.find(s => s.name.toLowerCase() === returnData.data.toLowerCase());
+                                const shipToHit = players[(player + 1) % players.length].placedBoats.find(s => s.name.toLowerCase() === returnData.shipName.toLowerCase());
                                 if (shipToHit) {
                                     shipToHit.hits++;
                                     if (shipToHit.hits === shipToHit.length) {
                                         shipToHit.sunk = true;
                                         players[player].member.send(`You sunk ${players[(player + 1) % players.length].member.user.tag}'s ${shipToHit.name}!`);
-                                        players[(player + 1) % players.length].member.send(`Your ${returnData.data} was sunk!`);
-                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.data} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
+                                        players[(player + 1) % players.length].member.send(`Your ${returnData.shipName} was sunk!`);
+                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.shipName} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
                                     }
                                 }
 
@@ -188,16 +190,13 @@ export default class BattleShip extends BaseCommand {
                     attackBoard[i][index].data = "2";
                     shipName = shipBoard[i][index].ship;
                 } else return false;
+
             }
         }
-        return {
-            shipBoard,
-            attackBoard,
-            data: shipName,
-        };
+        return { shipBoard, attackBoard, shipName };
     }
 
-    private checkBoatPos(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], boat: { name: string, length: number, hits: number }, cords: { letter: string, number: number, cord: string }, dirrection: string) {
+    private checkBoatPos(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], boat: { name: string, length: number, hits: number, sunk: boolean }, cords: { letter: string, number: number, cord: string }, dirrection: string, type: "check" | "render") {
         for (let i = 0; i < board.length; i++) {
             if (board[i].find(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase())) {
                 switch (dirrection) {
@@ -205,103 +204,74 @@ export default class BattleShip extends BaseCommand {
                         let countUp = 0;
                         let startPosUp = i;
                         do {
-                            if (board[startPosUp] === undefined) return false;
-                            if (board[startPosUp][cords.number - 1].data === "1") return false;
-                            countUp++;
-                            startPosUp--;
+                            if (type === "check") {
+                                if (board[startPosUp] === undefined) return;
+                                if (board[startPosUp][cords.number - 1].data === "1") return;
+                                countUp++;
+                                startPosUp--;
+                            } else {
+                                board[i][cords.number - 1].data = "1";
+                                board[i][cords.number - 1].ship = boat.name;
+                                countUp++;
+                                i--;
+                            }
                         } while (countUp < boat.length);
                     break;
                     case "down":
                         let countDown = 0;
                         let startPosDown = i;
                         do {
-                            if (board[startPosDown] === undefined) return false;
-                            if (board[startPosDown][cords.number - 1].data === "1") return false;
-                            countDown++
-                            startPosDown++;
+                            if (type === "check") {
+                                if (board[startPosDown] === undefined) return;
+                                if (board[startPosDown][cords.number - 1].data === "1") return;
+                                countDown++
+                                startPosDown++;
+                            } else {
+                                board[i][cords.number - 1].data = "1";
+                                board[i][cords.number - 1].ship = boat.name;
+                                countDown++
+                                i++;
+                            }
                         } while (countDown < boat.length);
                     break;
                     case "left":
                         let countLeft = 0;
                         let currIndexLeft = board[i].findIndex(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase());
                         do {
-                            currIndexLeft--;
-                            if (board[i][currIndexLeft] === undefined) return false;
-                            if (board[i][currIndexLeft].data === "1") return false;
-                            countLeft++;
+                            if (type === "check") {
+                                currIndexLeft--;
+                                if (board[i][currIndexLeft] === undefined) return;
+                                if (board[i][currIndexLeft].data === "1") return;
+                                countLeft++;
+                            } else {
+                                board[i][currIndexLeft].data = "1";
+                                board[i][currIndexLeft].ship = boat.name;
+                                currIndexLeft--;
+                                countLeft++;
+                            }
                         } while (countLeft < boat.length);
                     break;
                     case "right":
                         let countRight = 0;
                         let currIndexRight = board[i].findIndex(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase());
                         do {
-                            currIndexRight++;
-                            if (board[i][currIndexRight] === undefined) return false;
-                            if (board[i][currIndexRight].data === "1") return false;
-                            countRight++;
+                            if (type === "check") {
+                                currIndexRight++;
+                                if (board[i][currIndexRight] === undefined) return;
+                                if (board[i][currIndexRight].data === "1") return;
+                                countRight++;
+                            } else {
+                                board[i][currIndexRight].data = "1";
+                                board[i][currIndexRight].ship = boat.name;
+                                currIndexRight++;
+                                countRight++;
+                            }
                         } while (countRight < boat.length);
                     break;
                 }
             }
         }
-        return true;
-    }
-
-    private renderBoat(board: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][], boat: { name: string, length: number, hits: number, sunk: boolean  }, cords: { letter: string, number: number, cord: string }, dirrection: string) {
-        for (let i = 0; i < board.length; i++) {
-            if (board[i].find(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase())) {
-                switch (dirrection) {
-                    case "up":
-                        let countUp = 0;
-                        do {
-                            board[i][cords.number - 1].data = "1";
-                            board[i][cords.number - 1].ship = boat.name;
-
-                            countUp++;
-                            i--;
-                        } while (countUp < boat.length);
-                    break;
-                    case "down":
-                        let countDown = 0;
-                        do {
-                            board[i][cords.number - 1].data = "1";
-                            board[i][cords.number - 1].ship = boat.name;
-
-                            countDown++
-                            i++;
-                        } while (countDown < boat.length);
-                    break;
-                    case "left":
-                        let countLeft = 0;
-                        let currIndexLeft = board[i].findIndex(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase());
-                        do {
-                            board[i][currIndexLeft].data = "1";
-
-                            board[i][currIndexLeft].ship = boat.name;
-
-                            currIndexLeft--;
-                            countLeft++;
-                        } while (countLeft < boat.length);
-                    break;
-                    case "right":
-                        let countRight = 0;
-                        let currIndexRight = board[i].findIndex(data => data.cords.cord.toLowerCase() === cords.cord.toLowerCase());
-                        do {
-                            board[i][currIndexRight].data = "1";
-                            
-                            board[i][currIndexRight].ship = boat.name;
-
-                            currIndexRight++;
-                            countRight++;
-                        } while (countRight < boat.length);
-                    break;
-                }
-                return {
-                    board,
-                    boat,
-                };
-            }
-        }
+        return { boat, board };
     }
 
     private genBoard(hor: number, ver: number) {
