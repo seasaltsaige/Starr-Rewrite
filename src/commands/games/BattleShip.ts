@@ -60,39 +60,7 @@ export default class BattleShip extends BaseCommand {
 
                 play.gameChannel = dmBoard.channel.id;
 
-                const validBoats = [ 
-                    { 
-                        name: "carrier", 
-                        length: 5, 
-                        hits: 0, 
-                        sunk: false 
-                    }, 
-                    { 
-                        name: "battleship", 
-                        length: 4,
-                        hits: 0, 
-                        sunk: false 
-                    }, 
-                    { 
-                        name: "destroyer", 
-                        length: 3, 
-                        hits: 0, 
-                        sunk: false 
-                    }, 
-                    { 
-                        name: "submarine", 
-                        length: 3, 
-                        hits: 0, 
-                        sunk: false 
-                    }, 
-                    { 
-                        name: "patrolboat", 
-                        length: 2, 
-                        hits: 0, 
-                        sunk: false 
-                    } 
-                ];
-
+                const validBoats = [ { name: "carrier", length: 5, hits: 0, sunk: false }, { name: "battleship", length: 4,hits: 0, sunk: false }, { name: "destroyer", length: 3, hits: 0, sunk: false }, { name: "submarine", length: 3, hits: 0, sunk: false }, { name: "patrolboat", length: 2, hits: 0, sunk: false } ];
                 const validDirrections = [ "up", "down", "right", "left" ];
 
                 dmCollector.on("collect", async (msg: Message) => {
@@ -167,11 +135,11 @@ export default class BattleShip extends BaseCommand {
                                         shipToHit.sunk = true;
                                         players[player].member.send(`You sunk ${players[(player + 1) % players.length].member.user.tag}'s ${shipToHit.name}!`);
                                         players[(player + 1) % players.length].member.send(`Your ${returnData.data.shipName} was sunk!`);
+                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.data.shipName} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
                                     }
                                 }
 
                                 if (this.winCondition(players[(player + 1) % players.length].placedBoats)) {
-
                                     for (const p of players) {
                                         p.collector.stop();
                                         p.member.send(`${players[player].member.user} won the game!`);
@@ -189,16 +157,11 @@ export default class BattleShip extends BaseCommand {
                                 players[player].member.send(`${players[player].member.user}`).then(m => m.delete());
 
                             }
-                        } else {
-                            return msg.channel.send("It isn't your turn yet. Please wait for the opponent to attack.").then(m => m.delete({ timeout: 10000 }));
-                        }
-                    } else {
-                        return msg.channel.send("It looks like the opponent/you hasn't/haven't placed all their/your ships. Please either finish placing your ships or wait for your opponent to finish!").then(m => m.delete({ timeout: 10000 }));
-                    }
+                        } else return msg.channel.send("It isn't your turn yet. Please wait for the opponent to attack.").then(m => m.delete({ timeout: 10000 }));
+
+                    } else return msg.channel.send("It looks like the opponent/you hasn't/haven't placed all their/your ships. Please either finish placing your ships or wait for your opponent to finish!").then(m => m.delete({ timeout: 10000 }));
                 });
-
             }
-
 
         } else return accept.edit("Looks like they declined.");
     }
