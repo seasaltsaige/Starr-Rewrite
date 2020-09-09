@@ -81,9 +81,9 @@ export default class BattleShip extends BaseCommand {
                             const gameChannelObject = <DMChannel>client.channels.cache.get(currPlayer.gameChannel);
 
                             const boatType = argument[0];
-                            if (!boatType) return msg.channel.send("Please provide a boat to place.");
-                            if (!validBoats.some(value => value.name === boatType.toLowerCase())) return msg.channel.send("Please provide a valid boat type to place.");
-                            if (players.find(plyr => plyr.member.id === msg.author.id).placedBoats.some(data => data.name === boatType.toLowerCase())) return msg.channel.send("You already placed that boat. Please try a different one.")
+                            if (!boatType) return msg.channel.send("Please provide a boat to place.").then(m => m.delete({ timeout: 15000 }));
+                            if (!validBoats.some(value => value.name === boatType.toLowerCase())) return msg.channel.send("Please provide a valid boat type to place.").then(m => m.delete({ timeout: 15000 }));
+                            if (players.find(plyr => plyr.member.id === msg.author.id).placedBoats.some(data => data.name === boatType.toLowerCase())) return msg.channel.send("You already placed that boat. Please try a different one.").then(m => m.delete({ timeout: 15000 }));
 
                             const cords = argument[1];
                             if (!cords) return msg.channel.send("Please enter cords for your ship. Ex: `D5`").then(m => m.delete({ timeout: 15000 }));
@@ -91,7 +91,7 @@ export default class BattleShip extends BaseCommand {
                             if (!cords.match(directionRegex)) return msg.channel.send("Please enter valid cords for your ship. Ex: `D5`").then(m => m.delete({ timeout: 15000 }));
 
                             const dirrection = argument[2];
-                            if (!dirrection) return msg.channel.send("Please provide a direction to position your boat!");
+                            if (!dirrection) return msg.channel.send("Please provide a direction to position your boat!").then(m => m.delete({ timeout: 15000 }));
                             if (!validDirrections.some(value => value === dirrection.toLowerCase())) return msg.channel.send(`Please provide a valid dirrection. Valid Choices: ${validDirrections.join(", ")}`).then(m => m.delete({ timeout: 15000 }));
 
                             const checked = this.checkBoatPos(play.playerShipBoard, validBoats.find(data => data.name === boatType.toLowerCase()), { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords }, dirrection, "check");
@@ -219,10 +219,10 @@ export default class BattleShip extends BaseCommand {
                                 countUp++;
                                 startPosUp--;
                             } else {
-                                board[i][cords.number - 1].data = "1";
-                                board[i][cords.number - 1].ship = boat.name;
+                                board[startPosUp][cords.number - 1].data = "1";
+                                board[startPosUp][cords.number - 1].ship = boat.name;
                                 countUp++;
-                                i--;
+                                startPosUp--;
                             }
                         } while (countUp < boat.length);
                     break;
@@ -236,10 +236,10 @@ export default class BattleShip extends BaseCommand {
                                 countDown++
                                 startPosDown++;
                             } else {
-                                board[i][cords.number - 1].data = "1";
-                                board[i][cords.number - 1].ship = boat.name;
+                                board[startPosDown][cords.number - 1].data = "1";
+                                board[startPosDown][cords.number - 1].ship = boat.name;
                                 countDown++
-                                i++;
+                                startPosDown++;
                             }
                         } while (countDown < boat.length);
                     break;
@@ -286,11 +286,15 @@ export default class BattleShip extends BaseCommand {
     private genBoard(hor: number, ver: number) {
         let whileCounter = 0;
         const boardLetter = [ { i: 0, letter: "A" }, { i: 1, letter: "B" }, { i: 2, letter: "C" }, { i: 3, letter: "D" }, { i: 4, letter: "E" }, { i: 5, letter: "F" }, { i: 6, letter: "G" }, { i: 7, letter: "H" }, { i: 8, letter: "I" }, { i: 9, letter: "J" } ];
+        // const boardLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         const doneData: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][] = [];
         do {
             const temp: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[] = [];
             for (let i = 0; i < ver; i++) {
+                // const boardLttr = boardLetter[i];
+
                 const boardLttr = boardLetter.find(data => data.i === whileCounter).letter;
+                // console.log(boardLttr, i)
                 temp.push({ data: "0", ship: "", cords: { letter: boardLttr, number: i + 1, cord: boardLttr + (i + 1) } });
             }
             doneData.push(temp);
