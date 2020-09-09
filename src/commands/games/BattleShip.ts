@@ -1,6 +1,6 @@
 import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
 import StarrClient from "../../utils/BaseClasses/StarrClient";
-import { Message, MessageReaction, User, GuildMember, DMChannel } from "discord.js";
+import { Message, MessageReaction, User, GuildMember, DMChannel, MessageEmbed } from "discord.js";
 import battleShipPlayer from "../../utils/types/battleShipPlayer";
 import { type } from "os";
 
@@ -33,6 +33,15 @@ export default class BattleShip extends BaseCommand {
 
         if (acceptedData.size < 1) return accept.edit("They didn't react in time, looks like they declined.");
         if (acceptedData.first().emoji.name === "✅") {
+
+            await accept.delete();
+
+            const trackingEmbed = new MessageEmbed()
+                .setTitle("Battle Ship Game")
+                .setFooter(`${challenger.user.tag} vs ${opponent.user.tag}`)
+                .setColor(client.colors.noColor)
+                .setDescription("The game has begun! Check your DM's for instructions on how to proceed. This embed will update as the game continues.");
+            const trackMsg = await message.channel.send(trackingEmbed);
 
             const players: battleShipPlayer[] = [
                 { collector: null, member: challenger, playerHitBoard: this.genBoard(10, 10), playerShipBoard: this.genBoard(10, 10), gameChannel: "", placedBoats: [], gameMessages: { start: "", hits: "", boats: "" }, ready: false },
@@ -105,8 +114,8 @@ export default class BattleShip extends BaseCommand {
                                 currPlayer.ready = true;
                                 if (players[0].ready && players[1].ready) {
                                     for (const playr of players) {
-                                        //@ts-ignore
-                                        client.channels.cache.get(playr.gameChannel).messages.cache.get(playr.gameMessages.start).edit(`You have both now finished the setup phase of the game! It is ${players[player].member.user.tag}'s turn to attack! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
+                                        const perGame = <DMChannel>client.channels.cache.get(playr.gameChannel);
+                                        perGame.messages.cache.get(playr.gameMessages.start).edit(`You have both now finished the setup phase of the game! It is ${players[player].member.user.tag}'s turn to attack! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
                                         playr.member.send(`${playr.member.user}`).then(m => m.delete());
                                     }
                                 } else return msg.channel.send("It looks like your opponent hasn't placed all of their ships yet! Please wait for them to finish. Once they finish you will get a DM.").then(m => m.delete({ timeout: 15000 }));
@@ -115,6 +124,10 @@ export default class BattleShip extends BaseCommand {
                     } else if (players[0].ready && players[1].ready) {
                         if (players[player].member.id === msg.author.id) {
                             if (cmd === "attack") {
+
+                                const playerChannel = <DMChannel>client.channels.cache.get(players[player].gameChannel);
+                                const opponentChannel = <DMChannel>client.channels.cache.get(players[(player + 1) % players.length].gameChannel);
+
                                 const cords = argument[0];
                                 if (!cords) return msg.channel.send("Please enter cords for your attack. Ex: `D5`").then(m => m.delete({ timeout: 15000 }));
                                 const directionRegex = /[a-z]([1-9]|10)/;
@@ -123,11 +136,9 @@ export default class BattleShip extends BaseCommand {
                                 const returnData = this.attack(players[player].playerHitBoard, players[(player + 1) % players.length].playerShipBoard, { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords });
                                 if (!returnData) return msg.channel.send("You can't attack there, please try somewhere else!").then(m => m.delete({ timeout: 15000 }));
 
-                                //@ts-ignore
-                                client.channels.cache.get(players[player].gameChannel).messages.cache.get(players[player].gameMessages.hits).edit(`Attack Board:\n${this.displayBoard(returnData.attackBoard, "hit")}`);
+                                playerChannel.messages.cache.get(players[player].gameMessages.hits).edit(`Attack Board:\n${this.displayBoard(returnData.attackBoard, "hit")}`);
                                 players[player].playerHitBoard = returnData.attackBoard;
-                                //@ts-ignore
-                                client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(returnData.shipBoard, "ship")}`);
+                                opponentChannel.messages.cache.get(players[(player + 1) % players.length].gameMessages.boats).edit(`Ship Board:\n${this.displayBoard(returnData.shipBoard, "ship")}`);
                                 players[(player + 1) % 2].playerShipBoard = returnData.shipBoard;
 
                                 const shipToHit = players[(player + 1) % players.length].placedBoats.find(s => s.name.toLowerCase() === returnData.shipName.toLowerCase());
@@ -149,10 +160,8 @@ export default class BattleShip extends BaseCommand {
                                     message.channel.send(`${players[player].member.user} won the game!`);
                                 }
 
-                                //@ts-ignore
-                                client.channels.cache.get(players[player].gameChannel).messages.cache.get(players[player].gameMessages.start).edit(`It is now ${players[(player + 1) % players.length].member.user.tag}'s turn! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
-                                //@ts-ignore
-                                client.channels.cache.get(players[(player + 1) % players.length].gameChannel).messages.cache.get(players[(player + 1) % players.length].gameMessages.start).edit(`It is now ${players[(player + 1) % players.length].member.user.tag}'s turn! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
+                                playerChannel.messages.cache.get(players[player].gameMessages.start).edit(`It is now ${players[(player + 1) % players.length].member.user.tag}'s turn! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
+                                opponentChannel.messages.cache.get(players[(player + 1) % players.length].gameMessages.start).edit(`It is now ${players[(player + 1) % players.length].member.user.tag}'s turn! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
 
                                 player = (player + 1) % players.length;
 
