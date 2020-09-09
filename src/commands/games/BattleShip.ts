@@ -286,15 +286,11 @@ export default class BattleShip extends BaseCommand {
     private genBoard(hor: number, ver: number) {
         let whileCounter = 0;
         const boardLetter = [ { i: 0, letter: "A" }, { i: 1, letter: "B" }, { i: 2, letter: "C" }, { i: 3, letter: "D" }, { i: 4, letter: "E" }, { i: 5, letter: "F" }, { i: 6, letter: "G" }, { i: 7, letter: "H" }, { i: 8, letter: "I" }, { i: 9, letter: "J" } ];
-        // const boardLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         const doneData: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[][] = [];
         do {
             const temp: { data: string, ship: string, cords: { letter: string, number: number, cord: string } }[] = [];
             for (let i = 0; i < ver; i++) {
-                // const boardLttr = boardLetter[i];
-
                 const boardLttr = boardLetter.find(data => data.i === whileCounter).letter;
-                // console.log(boardLttr, i)
                 temp.push({ data: "0", ship: "", cords: { letter: boardLttr, number: i + 1, cord: boardLttr + (i + 1) } });
             }
             doneData.push(temp);
