@@ -37,7 +37,7 @@ export default class BattleShip extends BaseCommand {
             await accept.delete();
 
             const trackingEmbed = new MessageEmbed()
-                .setTitle("Battle Ship Game")
+                .setTitle("Battle Ship Game <:submarine:753289857907818561>")
                 .setFooter(`${challenger.user.tag} vs ${opponent.user.tag}`)
                 .setColor(client.colors.noColor)
                 .setDescription("The game has begun! Check your DM's for instructions on how to proceed. This embed will update as the game continues.");
@@ -108,7 +108,8 @@ export default class BattleShip extends BaseCommand {
                             oldBoat = reRender.boat;
 
                             const editMe = gameChannelObject.messages.cache.get(currPlayer.gameMessages.start);
-                            editMe.edit(editMe.content.replace(boatType.toLowerCase(), `~~${boatType}~~`));
+                            const regex = new RegExp(boatType.toLowerCase(), "ig");
+                            editMe.edit(editMe.content.replace(regex, `~~${boatType.toLowerCase()}~~`));
 
                             if (currPlayer.placedBoats.length === 5) {
                                 currPlayer.ready = true;
@@ -118,6 +119,15 @@ export default class BattleShip extends BaseCommand {
                                         perGame.messages.cache.get(playr.gameMessages.start).edit(`You have both now finished the setup phase of the game! It is ${players[player].member.user.tag}'s turn to attack! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);
                                         playr.member.send(`${playr.member.user}`).then(m => m.delete());
                                     }
+
+
+                                    trackingEmbed.setDescription("");
+                                    for (const p of players) {
+                                        trackingEmbed.addField(p.member.user.tag, `Has ${p.placedBoats.filter(b => !b.sunk).length} ships left!\n\n${p.placedBoats.map(b => b.sunk ? `❌ ${b.name.toProperCase()}` : `✅ ${b.name.toProperCase()}`).join("\n")}`);
+                                    }
+                                    trackMsg.edit(trackingEmbed);
+
+
                                 } else return msg.channel.send("It looks like your opponent hasn't placed all of their ships yet! Please wait for them to finish. Once they finish you will get a DM.").then(m => m.delete({ timeout: 15000 }));
                             }
                         }
@@ -130,7 +140,7 @@ export default class BattleShip extends BaseCommand {
 
                                 const cords = argument[0];
                                 if (!cords) return msg.channel.send("Please enter cords for your attack. Ex: `D5`").then(m => m.delete({ timeout: 15000 }));
-                                const directionRegex = /[a-z]([1-9]|10)/;
+                                const directionRegex = /[a-z]([1-9]|10)/i;
                                 if (!cords.match(directionRegex)) return msg.channel.send("Please enter valid cords for your attack. Ex: `D5`").then(m => m.delete({ timeout: 15000 }));
 
                                 const returnData = this.attack(players[player].playerHitBoard, players[(player + 1) % players.length].playerShipBoard, { letter: cords[0], number: parseInt(cords.slice(1)), cord: cords });
@@ -148,7 +158,15 @@ export default class BattleShip extends BaseCommand {
                                         shipToHit.sunk = true;
                                         players[player].member.send(`You sunk ${players[(player + 1) % players.length].member.user.tag}'s ${shipToHit.name}!`);
                                         players[(player + 1) % players.length].member.send(`Your ${returnData.shipName} was sunk!`);
-                                        message.channel.send(`${players[(player + 1) % players.length].member.user.tag}'s ${returnData.shipName} has been sunk! They have ${players[(player + 1) % players.length].placedBoats.filter(ship => !ship.sunk).length} more ship(s) remaining!`);
+
+                                        const embed = new MessageEmbed()
+                                            .setTitle("Battle Ship Game <:submarine:753289857907818561>")
+                                            .setFooter(`${challenger.user.tag} vs ${opponent.user.tag}`)
+                                            .setColor(client.colors.noColor)  
+                                        for (const p of players) {
+                                            embed.addField(p.member.user.tag, `Has ${p.placedBoats.filter(b => !b.sunk).length} ships left!\n\n${p.placedBoats.map(b => b.sunk ? `❌ ${b.name.toProperCase()}` : `✅ ${b.name.toProperCase()}`).join("\n")}`);
+                                        }
+                                        trackMsg.edit(embed);
                                     }
                                 }
 
@@ -157,7 +175,12 @@ export default class BattleShip extends BaseCommand {
                                         p.collector.stop();
                                         p.member.send(`${players[player].member.user} won the game!`);
                                     }
-                                    message.channel.send(`${players[player].member.user} won the game!`);
+                                    const embed = new MessageEmbed()
+                                        .setTitle("Battle Ship Game <:submarine:753289857907818561>")
+                                        .setFooter(`${challenger.user.tag} vs ${opponent.user.tag}`)
+                                        .setColor(client.colors.noColor)  
+                                        .setDescription(`${players[player].member.user} has won the game!`)
+                                    trackMsg.edit(`${players[0].member}, ${players[1].member}`, embed);
                                 }
 
                                 playerChannel.messages.cache.get(players[player].gameMessages.start).edit(`It is now ${players[(player + 1) % players.length].member.user.tag}'s turn! Use \`${prefix}attack <cords>\` to call an attack on that spot!\n\nLegend:\n- Attack Board:\n--- ◻️ = Empty Spot\n--- ⚪ = Missed Attack\n--- 🔴 = Hit Attack\n- Ship Board:\n--- 🔲 = Empty Spot\n--- 🟩 = Unhit Ship\n--- 🟥 = Hit Ship\n--- ⚪ = Missed Opponent Shot`);

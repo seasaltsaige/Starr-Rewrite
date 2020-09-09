@@ -9,3 +9,4 @@ const StarrClient = new Client({
     } 
 });
 StarrClient.start(); // Start the client
+import "./utils/Prototypes/string.extensions";
