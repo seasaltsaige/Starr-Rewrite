@@ -10,7 +10,7 @@ export default class Kick extends BaseCommand {
             category: "moderation",
             description: "Kick a user from the server",
             permissions: ["MANAGE_GUILD"],
-            usage: "?kick <user> <reason>",
+            usage: "kick <user> <reason>",
         });
     }
     public async run (client: StarrClient, message: Message, args: string[]) {

@@ -10,7 +10,7 @@ export default class Unmute extends BaseCommand {
             category: "moderation",
             description: "Unmute a user",
             permissions: ["MANAGE_ROLES"],
-            usage: "?unmute <user>",
+            usage: "unmute <user>",
         });
     }
     public async run (client: StarrClient, message: Message, args: string[]) {

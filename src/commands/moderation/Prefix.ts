@@ -7,7 +7,7 @@ export default class Prefix extends BaseCommand {
     constructor() {
         super({
             name: "prefix",
-            usage: "?prefix [default]",
+            usage: "prefix [default]",
             aliases: ["p"],
             category: "moderation",
             description: "Set a new prefix for the current guild",

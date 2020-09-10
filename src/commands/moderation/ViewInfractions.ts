@@ -7,7 +7,7 @@ export default class ViewWarns extends BaseCommand {
     constructor() {
         super({
             name: "viewinfractions",
-            usage: "?viewinfractions <user>",
+            usage: "viewinfractions <user>",
             aliases: ["infractions", "vinfractions", "vinfs"],
             category: "moderation",
             permissions: ["MANAGE_MESSAGES"],

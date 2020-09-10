@@ -10,7 +10,7 @@ export default class Mod extends BaseCommand {
             description: "Add or remove mod roles or members",
             name: "mod",
             permissions: ["ADMINISTRATOR"],
-            usage: "?mod <add/remove> <member/role>",
+            usage: "mod <add/remove> <member/role>",
         });
     }
 

@@ -8,7 +8,7 @@ export default class Warn extends BaseCommand {
     constructor() {
         super({
             name: "warn",
-            usage: "?warn <user> <reason>",
+            usage: "warn <user> <reason>",
             aliases: [],
             category: "moderation",
             permissions: ["MANAGE_MESSAGES"],

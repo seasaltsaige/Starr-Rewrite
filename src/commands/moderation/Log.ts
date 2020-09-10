@@ -7,7 +7,7 @@ export default class Log extends BaseCommand {
     constructor() {
         super({
             name: "log",
-            usage: "?log <set/delete> <channel>",
+            usage: "log <set/delete> <channel>",
             aliases: ["logs"],
             category: "moderation",
             description: "Set up your log channel!",

@@ -7,7 +7,7 @@ export default class TicTacToe extends BaseCommand {
     constructor() {
         super({
             name: "tictactoe",
-            usage: "?tictactoe",
+            usage: "tictactoe",
             aliases: ["ttt"],
             category: "games",
             description: "Help command",

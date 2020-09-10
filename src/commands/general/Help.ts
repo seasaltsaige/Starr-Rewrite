@@ -7,7 +7,7 @@ export default class Help extends BaseCommand {
     constructor() {
         super({
             name: "help",
-            usage: "?help [category/command]",
+            usage: "help [category/command]",
             aliases: ["halp", "cmds", "commands"],
             category: "general",
             description: "Help command",

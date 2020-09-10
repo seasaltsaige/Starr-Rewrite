@@ -8,7 +8,7 @@ export default class EditWarn extends BaseCommand {
     constructor() {
         super({
             name: "editinfraction",
-            usage: "?editinfraction <caseID> <New Reason>",
+            usage: "editinfraction <caseID> <New Reason>",
             aliases: ["editinf", "ef", "edinfraction"],
             category: "moderation",
             permissions: ["MANAGE_MESSAGES"],

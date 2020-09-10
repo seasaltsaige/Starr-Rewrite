@@ -10,7 +10,7 @@ export default class Strike extends BaseCommand {
             category: "moderation",
             description: "Strike a user",
             permissions: ["MANAGE_MESSAGES"],
-            usage: "?strike <user> <reason>",
+            usage: "strike <user> <reason>",
         });
     }
     public async run(client: StarrClient, message: Message, args: string[]) {

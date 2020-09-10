@@ -10,7 +10,7 @@ export default class Mute extends BaseCommand {
             category: "moderation",
             description: "Mute a user",
             permissions: ["MANAGE_ROLES"],
-            usage: "?mute <user> <reason>",
+            usage: "mute <user> <reason>",
         });
     }
     public async run (client: StarrClient, message: Message, args: string[]) {

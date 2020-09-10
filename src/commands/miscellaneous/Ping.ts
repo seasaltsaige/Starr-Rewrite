@@ -6,7 +6,7 @@ export default class Ping extends BaseCommand {
     constructor() {
         super({
             name: "ping",
-            usage: "?ping",
+            usage: "ping",
             aliases: ["pong"],
             category: "miscellaneous",
             description: "Ping Pong",
