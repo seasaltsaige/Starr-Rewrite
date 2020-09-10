@@ -1,5 +1,5 @@
-import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
-import StarrClient from "../../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/structure/BaseCommand";
+import StarrClient from "../../utils/structure/StarrClient";
 import { Message, MessageEmbed, MessageReaction, User } from "discord.js";
 import Guild from "../../database/models/Guild";
 

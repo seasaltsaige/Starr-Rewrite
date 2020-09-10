@@ -1,5 +1,5 @@
-import StarrClient from "../utils/BaseClasses/StarrClient";
-import BaseEvent from "../utils/BaseClasses/BaseEvent";
+import StarrClient from "../utils/structure/StarrClient";
+import BaseEvent from "../utils/structure/BaseEvent";
 import Guild from "../database/models/Guild";
 import CachePrefixes from "../utils/checks/CachePrefixes";
 

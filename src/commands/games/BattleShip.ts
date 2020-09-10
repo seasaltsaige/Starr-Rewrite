@@ -1,7 +1,7 @@
-import { BaseCommand } from "../../utils/BaseClasses/BaseCommand";
-import StarrClient from "../../utils/BaseClasses/StarrClient";
+import { BaseCommand } from "../../utils/structure/BaseCommand";
+import StarrClient from "../../utils/structure/StarrClient";
 import { Message, MessageReaction, User, GuildMember, DMChannel, MessageEmbed } from "discord.js";
-import battleShipPlayer from "../../utils/types/battleShipPlayer";
+import battleShipPlayer from "../../utils/interfaces/battleShipPlayer";
 import { type } from "os";
 
 export default class BattleShip extends BaseCommand {

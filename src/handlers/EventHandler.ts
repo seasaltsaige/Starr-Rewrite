@@ -1,7 +1,7 @@
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import StarrClient from "../utils/structure/StarrClient";
 import readdir from "readdir-plus";
-import BaseEvent from "../utils/BaseClasses/BaseEvent";
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
+import BaseEvent from "../utils/structure/BaseEvent";
+import { BaseCommand } from "../utils/structure/BaseCommand";
 
 export default new class EventHandler {
     load(path: string, client: StarrClient) {

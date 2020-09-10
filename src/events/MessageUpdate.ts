@@ -1,5 +1,5 @@
-import BaseEvent from "../utils/BaseClasses/BaseEvent";
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import BaseEvent from "../utils/structure/BaseEvent";
+import StarrClient from "../utils/structure/StarrClient";
 import { Message } from "discord.js";
 import GhostPing from "../utils/checks/GhostPing";
 

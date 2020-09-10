@@ -1,4 +1,4 @@
-import StarrClient from "../BaseClasses/StarrClient";
+import StarrClient from "../structure/StarrClient";
 import GuildDoc from "../../database/SchemaInterfaces/GuildDoc";
 import { Guild } from "discord.js";
 

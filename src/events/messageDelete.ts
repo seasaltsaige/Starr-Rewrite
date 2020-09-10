@@ -1,6 +1,6 @@
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import StarrClient from "../utils/structure/StarrClient";
 import { Message } from "discord.js";
-import BaseEvent from "../utils/BaseClasses/BaseEvent";
+import BaseEvent from "../utils/structure/BaseEvent";
 import GhostPing from "../utils/checks/GhostPing";
 
 export default class MessageDelete extends BaseEvent {

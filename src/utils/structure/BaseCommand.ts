@@ -1,5 +1,5 @@
 import { Message, PermissionResolvable, GuildMember } from "discord.js";
-import BaseCommandInfo from "../types/BaseCommandInfo";
+import BaseCommandInfo from "../interfaces/BaseCommandInfo";
 import StarrClient from "./StarrClient";
 import { CategoryResolvable } from "../resolvables/Resolvables";
 

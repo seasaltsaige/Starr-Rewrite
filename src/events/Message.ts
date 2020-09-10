@@ -1,11 +1,11 @@
-import StarrClient from "../utils/BaseClasses/StarrClient";
+import StarrClient from "../utils/structure/StarrClient";
 import { Message as message } from "discord.js";
 import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
-import BaseEvent from "../utils/BaseClasses/BaseEvent";
+import BaseEvent from "../utils/structure/BaseEvent";
 import GuildOwner from "../utils/checks/GuildOwner";
-import { BaseCommand } from "../utils/BaseClasses/BaseCommand";
+import { BaseCommand } from "../utils/structure/BaseCommand";
 
 export default class Message extends BaseEvent {
     constructor() {

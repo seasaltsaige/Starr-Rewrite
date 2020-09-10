@@ -1,6 +1,6 @@
-import PingedInfo from "../types/PingedInfo";
+import PingedInfo from "../interfaces/PingedInfo";
 import { Message } from "discord.js";
-import StarrClient from "../BaseClasses/StarrClient";
+import StarrClient from "../structure/StarrClient";
 
 export default class Pinged {
     constructor(private pingedInfo: PingedInfo) { }

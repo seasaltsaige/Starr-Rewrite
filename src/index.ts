@@ -1,5 +1,5 @@
 // Import my Extended client
-import Client from "./utils/BaseClasses/StarrClient";
+import Client from "./utils/structure/StarrClient";
 // Initialize the bot client
 const StarrClient = new Client({ 
     defaultPrefix: "?", 

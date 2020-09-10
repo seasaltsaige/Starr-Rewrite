@@ -1,10 +1,10 @@
 import { Client, Snowflake, Guild, Channel, ClientOptions, Constants } from "discord.js"
-import StarrClientInfo from "../types/StarrClientInfo";
+import StarrClientInfo from "../interfaces/StarrClientInfo";
 import GuildDoc from "../../database/models/Guild";
-import SnipeData from "../types/SnipeData";
+import SnipeData from "../interfaces/SnipeData";
 import CommandHandler from "../../handlers/CommandHandler"; // Import the command handler
 import EventHandler from "../../handlers/EventHandler"; // Import the event handler
-import { Categories } from "../../utils/resolvables/Resolvables"; // Import the categories for the command handler
+import { Categories } from "../resolvables/Resolvables"; // Import the categories for the command handler
 import { config } from "dotenv"; // Import config for environment variables
 
 export default class StarrClient extends Client {
