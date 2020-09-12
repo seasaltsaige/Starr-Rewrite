@@ -1,11 +1,13 @@
 import StarrClient from "../utils/structure/StarrClient";
-import { Message as message } from "discord.js";
+import { Collection, Message as message, Snowflake } from "discord.js";
 import PermissionGaurd from "../utils/checks/PermissionGaurd";
 import OwnerGuard from "../utils/checks/OwnerGuard";
 import Pinged from "../utils/checks/Pinged";
 import BaseEvent from "../utils/structure/BaseEvent";
 import GuildOwner from "../utils/checks/GuildOwner";
 import { BaseCommand } from "../utils/structure/BaseCommand";
+import HandleXp from "../utils/checks/HandleXp";
+let cooldown = new Collection<Snowflake, number>();
 
 export default class Message extends BaseEvent {
     constructor() {
@@ -20,6 +22,15 @@ export default class Message extends BaseEvent {
         
         const prefix = client.cachedPrefixes.get(message.guild.id) || client.defaultPrefix;
 
+        const Leveling = new HandleXp(message, cooldown);
+        const handled = await Leveling.handle();
+        if (handled) {
+            cooldown = handled.cooldown;
+            if (handled.msg) message.channel.send(handled.msg);
+            setTimeout(() => {
+                cooldown.delete(message.author.id);
+            }, 1000 * 60);
+        }
         // Check if the bot was pinged
         const Ping = new Pinged({ message, type: "equals", client });
         const pingMess = Ping.check();
