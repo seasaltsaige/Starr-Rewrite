@@ -1,6 +1,6 @@
 import StarrClient from "../utils/structure/StarrClient";
 import readdir from "readdir-plus";
-import { BaseCommand } from "../utils/structure/BaseCommand";
+import BaseCommand from "../utils/structure/BaseCommand";
 import("colors");
 
 

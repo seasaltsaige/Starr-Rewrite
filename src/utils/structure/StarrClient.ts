@@ -6,6 +6,7 @@ import CommandHandler from "../../handlers/CommandHandler"; // Import the comman
 import EventHandler from "../../handlers/EventHandler"; // Import the event handler
 import { Categories } from "../resolvables/Resolvables"; // Import the categories for the command handler
 import { config } from "dotenv"; // Import config for environment variables
+import { DiscordUNO } from "discord-uno";
 
 export default class StarrClient extends Client {
     defaultPrefix: string;
@@ -15,6 +16,7 @@ export default class StarrClient extends Client {
     snipes: Map<string, SnipeData>;
     baseOptions: ClientOptions;
     cachedPrefixes: Map<string, string>;
+    DiscordUNO: DiscordUNO;
     colors: {
         noColor: "#2F3136",
     }
@@ -28,6 +30,7 @@ export default class StarrClient extends Client {
         this.snipes = new Map();
         this.baseOptions = StarrClientInfo.baseOptions;
         this.cachedPrefixes = new Map();
+        this.DiscordUNO = new DiscordUNO();
         this.colors = {
             noColor: "#2F3136",
         }

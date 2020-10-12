@@ -3,7 +3,7 @@ import BaseCommandInfo from "../interfaces/BaseCommandInfo";
 import StarrClient from "./StarrClient";
 import { CategoryResolvable } from "../resolvables/Resolvables";
 
-export abstract class BaseCommand {
+export default abstract class BaseCommand {
     name: string;
     usage: string;
     aliases: Array<string>;

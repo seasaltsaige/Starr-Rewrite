@@ -1,4 +1,4 @@
-import { BaseCommand } from "../../utils/structure/BaseCommand";
+import BaseCommand from "../../utils/structure/BaseCommand";
 import StarrClient from "../../utils/structure/StarrClient";
 import { Message, MessageReaction, User, GuildMember, DMChannel, MessageEmbed } from "discord.js";
 import battleShipPlayer from "../../utils/interfaces/battleShipPlayer";

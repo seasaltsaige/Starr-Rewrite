@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import Levels from "../../database/models/Levels";
-import { BaseCommand } from "../../utils/structure/BaseCommand";
+import BaseCommand from "../../utils/structure/BaseCommand";
 import StarrClient from "../../utils/structure/StarrClient";
 
 export default class Rank extends BaseCommand {

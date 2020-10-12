@@ -1,12 +1,11 @@
-// Import my Extended client
 import Client from "./utils/structure/StarrClient";
-// Initialize the bot client
 const StarrClient = new Client({ 
-    defaultPrefix: "?", 
+    defaultPrefix: "!s!", 
     owners: [ "408080307603111936" ], 
     baseOptions: { 
-        partials: ["MESSAGE", "REACTION"] 
+        partials: ["MESSAGE", "REACTION"] ,
+        fetchAllMembers: false,
     } 
 });
-StarrClient.start(); // Start the client
+StarrClient.start();
 import "./utils/Prototypes/string.extensions";

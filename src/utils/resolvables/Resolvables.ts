@@ -1,2 +1,2 @@
-export type CategoryResolvable = "general" | "miscellaneous" | "fun" | "games" | "moderation" | "leveling";
-export const Categories = ["general", "miscellaneous", "fun", "games", "moderation", "leveling"];
+export type CategoryResolvable = "general" | "miscellaneous" | "fun" | "games" | "moderation" | "leveling" | "uno";
+export const Categories = ["general", "miscellaneous", "fun", "games", "moderation", "leveling", "uno"];

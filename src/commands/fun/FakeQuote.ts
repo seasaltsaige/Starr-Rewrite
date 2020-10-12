@@ -1,4 +1,4 @@
-import { BaseCommand } from "../../utils/structure/BaseCommand";
+import BaseCommand from "../../utils/structure/BaseCommand";
 import StarrClient from "../../utils/structure/StarrClient";
 import { Message, Snowflake, MessageAttachment } from "discord.js";
 import { createCanvas, registerFont, loadImage } from "canvas";

@@ -1,12 +1,9 @@
 import StarrClient from "../utils/structure/StarrClient";
 import { Collection, Message as message, Snowflake } from "discord.js";
-import PermissionGaurd from "../utils/checks/PermissionGaurd";
-import OwnerGuard from "../utils/checks/OwnerGuard";
-import Pinged from "../utils/checks/Pinged";
 import BaseEvent from "../utils/structure/BaseEvent";
-import GuildOwner from "../utils/checks/GuildOwner";
-import { BaseCommand } from "../utils/structure/BaseCommand";
-import HandleXp from "../utils/checks/HandleXp";
+import BaseCommand from "../utils/structure/BaseCommand";
+import { GuildOwner, HandleXp, OwnerGuard, PermissionGaurd, Pinged } from "../utils/checks/index";
+
 let cooldown = new Collection<Snowflake, number>();
 
 export default class Message extends BaseEvent {

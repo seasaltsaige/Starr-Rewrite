@@ -1,7 +1,7 @@
 import StarrClient from "../utils/structure/StarrClient";
 import BaseEvent from "../utils/structure/BaseEvent";
 import Guild from "../database/models/Guild";
-import CachePrefixes from "../utils/checks/CachePrefixes";
+import { CachePrefixes } from "../utils/checks/index";
 
 export default class Ready extends BaseEvent {
     constructor() {

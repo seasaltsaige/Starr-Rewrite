@@ -1,7 +1,7 @@
 import StarrClient from "../utils/structure/StarrClient";
 import { Message } from "discord.js";
 import BaseEvent from "../utils/structure/BaseEvent";
-import GhostPing from "../utils/checks/GhostPing";
+import { GhostPing } from "../utils/checks/index";
 
 export default class MessageDelete extends BaseEvent {
     constructor() {
@@ -25,12 +25,12 @@ export default class MessageDelete extends BaseEvent {
             image: message.attachments.first() ? message.attachments.first().proxyURL : null,
         });
 
-        const ghostPing = new GhostPing(message);
-        const checked = await ghostPing.check();
+        // const ghostPing = new GhostPing(message);
+        // const checked = await ghostPing.check();
 
         // console.log(checked);
 
-        if (checked) return message.channel.send(checked);
+        // if (checked) return message.channel.send(checked);
 
     }
 }

@@ -1,5 +1,5 @@
 import { GuildMember, Message } from "discord.js";
-import { BaseCommand } from "../structure/BaseCommand";
+import BaseCommand from "../structure/BaseCommand";
 
 export default class PermissionGaurd {
     constructor(public member: GuildMember) { };

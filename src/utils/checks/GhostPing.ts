@@ -1,5 +1,5 @@
 import { Message, MessageEmbed, Role, GuildMember } from "discord.js";
-import IgnoreBypass from "./IgnoreBypass";
+import { IgnoreBypass } from "./index";
 import Guild from "../../database/models/Guild";
 
 export default class GhostPing {

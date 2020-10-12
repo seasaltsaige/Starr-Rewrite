@@ -1,4 +1,4 @@
-import { BaseCommand } from "../../utils/structure/BaseCommand";
+import BaseCommand from "../../utils/structure/BaseCommand";
 import StarrClient from "../../utils/structure/StarrClient";
 import { Message } from "discord.js";
 import { CategoryResolvable } from "../../utils/resolvables/Resolvables";
