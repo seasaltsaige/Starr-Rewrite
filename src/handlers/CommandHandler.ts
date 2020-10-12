@@ -20,12 +20,11 @@ export default new class CommandHandler {
                     if (command.category !== path) throw new ReferenceError("Command category must be the same as file path");
 
                     // Set the client to use that command.
-                    client.commands.set(command.name, command);
+                    client.commands.set(command.name.toLowerCase(), command);
 
                     if (command.aliases) {
-                        command.aliases.forEach((alias: string) => client.aliases.set(alias, file.basename.toLowerCase()));
+                        command.aliases.forEach((alias: string) => client.aliases.set(alias, command.name.toLowerCase()));
                     }
-                    client.commands.set(file.basename.toLowerCase(), command);
                 }
                 console.log(`Successfully loaded ` + `${files.length} `.red + "command(s) in the " + path + " category");
             });
