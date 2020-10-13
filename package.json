@@ -16,7 +16,7 @@
     "canvas": "^2.6.1",
     "colors": "^1.4.0",
     "discord-battleship": "^1.0.3",
-    "discord-uno": "^2.0.17",
+    "discord-uno": "^2.0.18",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "mongoose": "^5.10.0",

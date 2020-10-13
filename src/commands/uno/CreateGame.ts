@@ -14,6 +14,7 @@ export default class CreateGame extends BaseCommand {
         });
     }
     async run (client: StarrClient, message: Message, args: string[]) {
+        console.log(`Created an UNO game in ${message.guild.name}`);
         await client.DiscordUNO.createGame(message);
     }
 }
